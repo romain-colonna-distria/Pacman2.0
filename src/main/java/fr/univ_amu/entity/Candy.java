@@ -29,6 +29,16 @@ public class Candy extends StaticElement {
     }
 
     @Override
+    public void setGraphicPositionX(double x) {
+
+    }
+
+    @Override
+    public void setGraphicPositionY(double y) {
+
+    }
+
+    @Override
     public double getPhysicPositionX() {
         return 0;
     }

@@ -8,6 +8,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Window extends Application {
@@ -23,6 +27,7 @@ public class Window extends Application {
         primaryStage.setScene(theScene);
         primaryStage.sizeToScene();
 
+        //System.out.println(GameBoard.getInstance());
         setElementsInStage(GameBoard.getInstance());
 
         /*
@@ -41,13 +46,40 @@ public class Window extends Application {
     }
 
 
-    private void setElementsInStage(GameBoard board){
-        ImageView a = new ImageView();
+    private void setElementsInStage(GameBoard board) throws FileNotFoundException {
+        ImageView iv = new ImageView();
+        /*------------- Pacman -------------*/
         Element pacman = board.getPacman();
-        a.setImage(new Image(pacman.getImage()));
-        a.setX(pacman.getGraphicPositionX());
-        a.setY(pacman.getGraphicPositionY());
+        iv.setImage(new Image(new FileInputStream(pacman.getImage()), pacman.getGraphicWidth(),
+                        pacman.getGraphicHeigth(), false, false));
+        iv.setX(pacman.getGraphicPositionX());
+        iv.setY(pacman.getGraphicPositionY());
 
-        root.getChildren().add(a);
+
+
+        /*--------- Static element ---------*/
+        List<Element> elements = board.getStaticElements();
+        Element staticElement;
+        List<ImageView> ivs = new ArrayList<>();
+        Image image;
+        for(int i = 0; i < elements.size(); ++i){
+            ivs.add(new ImageView());
+        }
+
+        //ImageView iv
+        for(int i = 0; i < elements.size(); ++i){
+            staticElement = elements.get(i);
+
+            //System.out.println(staticElement.getImage());
+            image = new Image(new FileInputStream(staticElement.getImage()), staticElement.getGraphicWidth(),
+                    staticElement.getGraphicHeigth(), false, false);
+            ivs.get(i).setImage(image);
+            ivs.get(i).setX(staticElement.getGraphicPositionX());
+            ivs.get(i).setY(staticElement.getGraphicPositionY());
+        }
+
+
+        root.getChildren().addAll(ivs);
+        root.getChildren().add(iv);
     }
 }

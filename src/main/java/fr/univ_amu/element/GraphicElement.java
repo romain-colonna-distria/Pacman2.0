@@ -6,4 +6,7 @@ public interface GraphicElement {
     double getGraphicWidth();
     double getGraphicHeigth();
     String getImage();
+
+    void setGraphicPositionX(double x);
+    void setGraphicPositionY(double y);
 }

@@ -41,6 +41,16 @@ public class Ghost extends DynamicElement implements Playable {
     }
 
     @Override
+    public void setGraphicPositionX(double x) {
+
+    }
+
+    @Override
+    public void setGraphicPositionY(double y) {
+
+    }
+
+    @Override
     public double getPhysicPositionX() {
         return 0;
     }
