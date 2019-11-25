@@ -3,19 +3,15 @@ package fr.univ_amu.entity;
 import fr.univ_amu.utils.Direction;
 import fr.univ_amu.behavior.Playable;
 import fr.univ_amu.element.DynamicElement;
-import fr.univ_amu.utils.RectangularShape;
+import fr.univ_amu.utils.Shape2D;
 
 public class Pacman extends DynamicElement implements Playable {
-    private RectangularShape graphicShape;
-    private RectangularShape physicShape;
+    private Shape2D graphicShape;
+    private Shape2D physicShape;
     private String image;
 
     private double speed;
     private Direction currentDirection;
-    private double graphicPositionX;
-    private double graphicPositionY;
-    private double physicPositionX;
-    private double physicPositionY;
 
 
 
@@ -27,10 +23,6 @@ public class Pacman extends DynamicElement implements Playable {
 
         this.speed = builder.speed;
         this.currentDirection = builder.currentDirection;
-        this.graphicPositionX = builder.graphicPositionX;
-        this.graphicPositionY = builder.graphicPositionY;
-        this.physicPositionX = builder.physicPositionX;
-        this.physicPositionY = builder.physicPositionY;
     }
 
     @Override
@@ -43,24 +35,10 @@ public class Pacman extends DynamicElement implements Playable {
         return currentDirection;
     }
 
-    @Override
-    public double getGraphicPositionX() {
-        return graphicPositionX;
-    }
 
     @Override
-    public double getGraphicPositionY() {
-        return graphicPositionY;
-    }
-
-    @Override
-    public double getGraphicWidth() {
-        return graphicShape.getWidth();
-    }
-
-    @Override
-    public double getGraphicHeigth() {
-        return graphicShape.getHeigth();
+    public Shape2D getGraphicShape() {
+        return graphicShape;
     }
 
     @Override
@@ -69,59 +47,21 @@ public class Pacman extends DynamicElement implements Playable {
     }
 
     @Override
-    public void setGraphicPositionX(double x) {
-        graphicPositionX = x;
-    }
-
-    @Override
-    public void setGraphicPositionY(double y) {
-        graphicPositionY = y;
-    }
-
-    @Override
-    public double getPhysicPositionX() {
-        return physicPositionX;
-    }
-
-    @Override
-    public double getPhysicPositionY() {
-        return physicPositionY;
-    }
-
-    @Override
-    public double getPhysicWidth() {
-        return physicShape.getWidth();
-    }
-
-    @Override
-    public double getPhysicHeigth() {
-        return physicShape.getHeigth();
-    }
-
-    @Override
-    public void setPhysicPositionX(double newX) {
-        physicPositionX = newX;
-    }
-
-    @Override
-    public void setPhysicPositionY(double newY) {
-        physicPositionY = newY;
+    public Shape2D getPhysiqueShape() {
+        return physicShape;
     }
 
 
     public static class PacmanBuilder {
-        private RectangularShape graphicShape;
-        private RectangularShape physicShape;
+        private Shape2D graphicShape;
+        private Shape2D physicShape;
         private String image;
 
         private double speed;
         private Direction currentDirection;
-        private double graphicPositionX;
-        private double graphicPositionY;
-        private double physicPositionX;
-        private double physicPositionY;
 
-        public PacmanBuilder(RectangularShape graphicShape, RectangularShape physicShape, String image){
+
+        public PacmanBuilder(Shape2D graphicShape, Shape2D physicShape, String image){
             this.graphicShape = graphicShape;
             this.physicShape = physicShape;
             this.image = image;
@@ -137,16 +77,6 @@ public class Pacman extends DynamicElement implements Playable {
             return this;
         }
 
-        public PacmanBuilder setgraphicPosition(double x, double y){
-            this.graphicPositionX = x;
-            this.graphicPositionY = y;
-            return this;
-        }
-        public PacmanBuilder setphysicPosition(double x, double y){
-            this.physicPositionX = x;
-            this.physicPositionY = y;
-            return this;
-        }
 
         public Pacman build(){
             return new Pacman(this);

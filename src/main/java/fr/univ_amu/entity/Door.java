@@ -1,70 +1,31 @@
 package fr.univ_amu.entity;
 
 import fr.univ_amu.element.StaticElement;
+import fr.univ_amu.utils.Shape2D;
 
 public class Door extends StaticElement {
-    @Override
-    public double getGraphicPositionX() {
-        return 0;
+    private Shape2D graphicShape;
+    private Shape2D physicShape;
+    private String image;
+
+    public Door(Shape2D graphicShape, Shape2D physicShape, String image) {
+        this.graphicShape = graphicShape;
+        this.physicShape = physicShape;
+        this.image = image;
     }
 
     @Override
-    public double getGraphicPositionY() {
-        return 0;
-    }
-
-    @Override
-    public double getGraphicWidth() {
-        return 0;
-    }
-
-    @Override
-    public double getGraphicHeigth() {
-        return 0;
+    public Shape2D getGraphicShape() {
+        return graphicShape;
     }
 
     @Override
     public String getImage() {
-        return null;
+        return image;
     }
 
     @Override
-    public void setGraphicPositionX(double x) {
-
-    }
-
-    @Override
-    public void setGraphicPositionY(double y) {
-
-    }
-
-    @Override
-    public double getPhysicPositionX() {
-        return 0;
-    }
-
-    @Override
-    public double getPhysicPositionY() {
-        return 0;
-    }
-
-    @Override
-    public double getPhysicWidth() {
-        return 0;
-    }
-
-    @Override
-    public double getPhysicHeigth() {
-        return 0;
-    }
-
-    @Override
-    public void setPhysicPositionX(double newX) {
-
-    }
-
-    @Override
-    public void setPhysicPositionY(double newY) {
-
+    public Shape2D getPhysiqueShape() {
+        return physicShape;
     }
 }

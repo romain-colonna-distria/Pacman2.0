@@ -1,12 +1,8 @@
 package fr.univ_amu.element;
 
-public interface GraphicElement {
-    double getGraphicPositionX();
-    double getGraphicPositionY();
-    double getGraphicWidth();
-    double getGraphicHeigth();
-    String getImage();
+import fr.univ_amu.utils.Shape2D;
 
-    void setGraphicPositionX(double x);
-    void setGraphicPositionY(double y);
+public interface GraphicElement {
+    Shape2D getGraphicShape();
+    String getImage();
 }
