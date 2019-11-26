@@ -1,6 +1,7 @@
 package fr.univ_amu;
 
 import fr.univ_amu.element.Element;
+import fr.univ_amu.entity.Ghost;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -55,7 +56,32 @@ public class Window extends Application {
         iv.setX(pacman.getGraphicShape().getxPosition());
         iv.setY(pacman.getGraphicShape().getyPosition());
 
+        
+        /*------------- Ghost -------------*/
+        
+        List<Ghost> elements1 = board.getGhosts();
+        Ghost ghost;
+        List<ImageView> iv2 = new ArrayList<>();
+        Image image1;
+        for(int i = 0; i < elements1.size(); ++i){
+        	iv2.add(new ImageView());
+        }
 
+        for(int i = 0; i < elements1.size(); ++i){
+        	ghost = elements1.get(i);
+
+        	image1 = new Image(new FileInputStream(ghost.getImage()), ghost.getGraphicShape().getWidth(),
+            		ghost.getGraphicShape().getHeigth(), false, false);
+            iv2.get(i).setImage(image1);
+            iv2.get(i).setX(ghost.getGraphicShape().getxPosition());
+            iv2.get(i).setY(ghost.getGraphicShape().getyPosition());
+        }
+        
+        
+        
+       
+        
+        
 
         /*--------- Static elements ---------*/
         List<Element> elements = board.getStaticElements();
@@ -78,6 +104,8 @@ public class Window extends Application {
 
 
         root.getChildren().addAll(ivs);
+        root.getChildren().addAll(iv2);
         root.getChildren().add(iv);
+       
     }
 }
