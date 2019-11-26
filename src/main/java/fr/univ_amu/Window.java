@@ -56,14 +56,14 @@ public class Window extends Application {
         ImageView iv = new ImageView();
         /*------------- Pacman -------------*/
         Element pacman = board.getPacman();
-        iv.setImage(new Image(new FileInputStream(pacman.getImage()), pacman.getGraphicWidth(),
-                        pacman.getGraphicHeigth(), false, false));
-        iv.setX(pacman.getGraphicPositionX());
-        iv.setY(pacman.getGraphicPositionY());
+        iv.setImage(new Image(new FileInputStream(pacman.getImage()), pacman.getGraphicShape().getWidth(),
+                        pacman.getGraphicShape().getHeigth(), false, false));
+        iv.setX(pacman.getGraphicShape().getxPosition());
+        iv.setY(pacman.getGraphicShape().getyPosition());
 
 
 
-        /*--------- Static element ---------*/
+        /*--------- Static elements ---------*/
         List<Element> elements = board.getStaticElements();
         Element staticElement;
         List<ImageView> ivs = new ArrayList<>();
@@ -72,16 +72,14 @@ public class Window extends Application {
             ivs.add(new ImageView());
         }
 
-        //ImageView iv
         for(int i = 0; i < elements.size(); ++i){
             staticElement = elements.get(i);
 
-            //System.out.println(staticElement.getImage());
-            image = new Image(new FileInputStream(staticElement.getImage()), staticElement.getGraphicWidth(),
-                    staticElement.getGraphicHeigth(), false, false);
+            image = new Image(new FileInputStream(staticElement.getImage()), staticElement.getGraphicShape().getWidth(),
+                    staticElement.getGraphicShape().getHeigth(), false, false);
             ivs.get(i).setImage(image);
-            ivs.get(i).setX(staticElement.getGraphicPositionX());
-            ivs.get(i).setY(staticElement.getGraphicPositionY());
+            ivs.get(i).setX(staticElement.getGraphicShape().getxPosition());
+            ivs.get(i).setY(staticElement.getGraphicShape().getyPosition());
         }
 
 

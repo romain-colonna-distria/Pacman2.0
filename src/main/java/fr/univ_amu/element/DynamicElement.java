@@ -9,16 +9,16 @@ public abstract class DynamicElement implements Element {
     void moveTo(){
         switch (getCurrentDirection()){
             case UP:
-                setPhysicPositionX(getPhysicPositionX() - getSpeed());
+                getGraphicShape().setxPosition(getGraphicShape().getxPosition() - getSpeed());
                 break;
             case DOWN:
-                setPhysicPositionX(getPhysicPositionX() + getSpeed());
+                getGraphicShape().setxPosition(getGraphicShape().getxPosition() + getSpeed());
                 break;
             case LEFT:
-                setPhysicPositionY(getPhysicPositionY() - getSpeed());
+                getGraphicShape().setyPosition(getGraphicShape().getyPosition() - getSpeed());
                 break;
             case RIGHT:
-                setPhysicPositionY(getPhysicPositionY() + getSpeed());
+                getGraphicShape().setyPosition(getGraphicShape().getyPosition() + getSpeed());
                 break;
         }
     }

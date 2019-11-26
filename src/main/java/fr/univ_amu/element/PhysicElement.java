@@ -1,11 +1,7 @@
 package fr.univ_amu.element;
 
-public interface PhysicElement {
-    double getPhysicPositionX();
-    double getPhysicPositionY();
-    double getPhysicWidth();
-    double getPhysicHeigth();
+import fr.univ_amu.utils.Shape2D;
 
-    void setPhysicPositionX(double newX);
-    void setPhysicPositionY(double newY);
+public interface PhysicElement {
+    Shape2D getPhysiqueShape();
 }
