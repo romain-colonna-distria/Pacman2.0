@@ -47,7 +47,6 @@ public class Main {
         board.addElements(elements);
         /*------------------------------------------------------------*/
 
-
         Application.launch(Window.class);
     }
 }

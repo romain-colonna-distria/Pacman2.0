@@ -3,9 +3,13 @@ package fr.univ_amu;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.entity.Pacman;
+import fr.univ_amu.io_engine.KeyboardControl;
+import javafx.scene.input.KeyEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static javafx.scene.input.KeyEvent.*;
 
 public class GameBoard {
     private static GameBoard instance;
@@ -57,4 +61,5 @@ public class GameBoard {
                 "elements=" + elements +
                 '}';
     }
+
 }
