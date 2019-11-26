@@ -7,7 +7,6 @@ import java.util.HashMap;
 
 public class KeyboardControl extends Control implements KeyListener {
 
-    //String[] directions = new String[] {"Left", "Right", "Up", "Down"};
     private HashMap<String, KeyCode> directions = new HashMap<>();
 
     public KeyboardControl() {
@@ -38,26 +37,6 @@ public class KeyboardControl extends Control implements KeyListener {
             }
         }
 
-        /*
-        switch (keyEvent.getCode()) {
-            case LEFT:
-                this.setAll(false);
-                this.setLeft(true);
-                break;
-            case RIGHT:
-                this.setAll(false);
-                this.setRight(true);
-                break;
-            case UP:
-                this.setAll(false);
-                this.setUp(true);
-                break;
-            case DOWN:
-                this.setAll(false);
-                this.setDown(true);
-                break;
-        }
-        */
     }
 
 }

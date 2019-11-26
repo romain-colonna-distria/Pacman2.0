@@ -2,6 +2,7 @@ package fr.univ_amu;
 
 import fr.univ_amu.element.Element;
 import fr.univ_amu.entity.Pacman;
+import fr.univ_amu.utils.Direction;
 import fr.univ_amu.utils.Shape2D;
 import fr.univ_amu.utils.Utils;
 import javafx.application.Application;
@@ -33,7 +34,9 @@ public class Main {
 
         String imagePath = "src/main/resources/img_15_15_black_background/pacman/pacman_eat_1.png";
 
-        Pacman pacman = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePath).build();
+        Pacman.PacmanBuilder pacmanBuilder = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePath);
+        pacmanBuilder.setSpeed(2);
+        Pacman pacman = pacmanBuilder.build();
         pacman.getGraphicShape().setxPosition(100d);
         pacman.getGraphicShape().setyPosition(100d);
 

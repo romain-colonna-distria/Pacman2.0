@@ -1,5 +1,6 @@
 package fr.univ_amu;
 
+import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.entity.Pacman;
@@ -36,6 +37,15 @@ public class GameBoard {
         List<Element> tmp = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
             if (elements.get(i) instanceof StaticElement) tmp.add(elements.get(i));
+        }
+
+        return tmp;
+    }
+
+    public List<Element> getDynamicElements() {
+        List<Element> tmp = new ArrayList<>();
+        for(int i = 0; i < elements.size(); ++i) {
+            if (elements.get(i) instanceof DynamicElement) tmp.add(elements.get(i));
         }
 
         return tmp;
