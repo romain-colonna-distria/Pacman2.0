@@ -2,11 +2,15 @@ package fr.univ_amu;
 
 import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.Element;
+
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.io_engine.Control;
 import fr.univ_amu.io_engine.KeyboardControl;
 import fr.univ_amu.utils.Direction;
 import javafx.animation.AnimationTimer;
+
+import fr.univ_amu.entity.Ghost;
+
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -67,7 +71,29 @@ public class Window extends Application {
         iv.setX(pacman.getGraphicShape().getxPosition());
         iv.setY(pacman.getGraphicShape().getyPosition());
 
+        
+        /*------------- Ghost -------------*/
+        
+        List<Ghost> elements1 = board.getGhosts();
+        Ghost ghost;
+        List<ImageView> iv2 = new ArrayList<>();
+        Image image1;
+        for(int i = 0; i < elements1.size(); ++i){
+        	iv2.add(new ImageView());
+        }
 
+        for(int i = 0; i < elements1.size(); ++i){
+        	ghost = elements1.get(i);
+
+
+        	image1 = new Image(new FileInputStream(ghost.getImage()), ghost.getGraphicShape().getWidth(),
+            		ghost.getGraphicShape().getHeigth(), false, false);
+            iv2.get(i).setImage(image1);
+            iv2.get(i).setX(ghost.getGraphicShape().getxPosition());
+            iv2.get(i).setY(ghost.getGraphicShape().getyPosition());
+        }
+        
+        
         /*--------- Static elements ---------*/
         List<Element> elements = board.getStaticElements();
         Element staticElement;
@@ -89,7 +115,9 @@ public class Window extends Application {
 
 
         root.getChildren().addAll(ivs);
+        root.getChildren().addAll(iv2);
         root.getChildren().add(iv);
+
         dynamicElementImageViewHashMap.put((DynamicElement) pacman, iv);
     }
 
@@ -132,6 +160,7 @@ public class Window extends Application {
             entry.getValue().setX(entry.getKey().getGraphicShape().getxPosition());
             entry.getValue().setY(entry.getKey().getGraphicShape().getyPosition());
         }
+
     }
 
     private EventHandler<KeyEvent> createKeyEvent(KeyboardControl keyboardControl) {

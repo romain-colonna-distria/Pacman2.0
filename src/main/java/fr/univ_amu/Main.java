@@ -1,6 +1,7 @@
 package fr.univ_amu;
 
 import fr.univ_amu.element.Element;
+import fr.univ_amu.entity.Ghost;
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.utils.Direction;
 import fr.univ_amu.utils.Shape2D;
@@ -27,20 +28,76 @@ public class Main {
         Shape2D graphicShapePacman = new Shape2D();
         graphicShapePacman.setWidth(ELEMENT_WIDTH);
         graphicShapePacman.setHeigth(ELEMENT_HEIGTH);
-
+        
         Shape2D physicShapePacman = new Shape2D();
         physicShapePacman.setWidth(ELEMENT_WIDTH);
         physicShapePacman.setHeigth(ELEMENT_HEIGTH);
+        
+        Shape2D graphicShapeGhost1 = new Shape2D();
+        graphicShapeGhost1.setWidth(ELEMENT_WIDTH);
+        graphicShapeGhost1.setHeigth(ELEMENT_HEIGTH);
 
-        String imagePath = "src/main/resources/img_15_15_black_background/pacman/pacman_eat_1.png";
+        Shape2D physicShapeGhost1 = new Shape2D();
+        physicShapeGhost1.setWidth(ELEMENT_WIDTH);
+        physicShapeGhost1.setHeigth(ELEMENT_HEIGTH);
+        
+        Shape2D graphicShapeGhost2 = new Shape2D();
+        graphicShapeGhost2.setWidth(ELEMENT_WIDTH);
+        graphicShapeGhost2.setHeigth(ELEMENT_HEIGTH);
 
-        Pacman.PacmanBuilder pacmanBuilder = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePath);
-        pacmanBuilder.setSpeed(2);
-        Pacman pacman = pacmanBuilder.build();
+        Shape2D physicShapeGhost2 = new Shape2D();
+        physicShapeGhost2.setWidth(ELEMENT_WIDTH);
+        physicShapeGhost2.setHeigth(ELEMENT_HEIGTH);
+        
+        Shape2D graphicShapeGhost3 = new Shape2D();
+        graphicShapeGhost3.setWidth(ELEMENT_WIDTH);
+        graphicShapeGhost3.setHeigth(ELEMENT_HEIGTH);
+
+        Shape2D physicShapeGhost3 = new Shape2D();
+        physicShapeGhost3.setWidth(ELEMENT_WIDTH);
+        physicShapeGhost3.setHeigth(ELEMENT_HEIGTH);
+        
+        Shape2D graphicShapeGhost4 = new Shape2D();
+        graphicShapeGhost4.setWidth(ELEMENT_WIDTH);
+        graphicShapeGhost4.setHeigth(ELEMENT_HEIGTH);
+
+        Shape2D physicShapeGhost4 = new Shape2D();
+        physicShapeGhost4.setWidth(ELEMENT_WIDTH);
+        physicShapeGhost4.setHeigth(ELEMENT_HEIGTH);
+
+        String imagePath = "src/main/resources/img_15_15_black_background/pacman/pacman_eat_1.png";      
+        String imagePath2 = "src/main/resources/img_15_15_black_background/ghosts/blinky/blinky_L.png";    
+        String imagePath3 = "src/main/resources/img_15_15_black_background/ghosts/clyde/clyde_L.png";
+        String imagePath4 = "src/main/resources/img_15_15_black_background/ghosts/inky/inky_U.png";
+        String imagePath5 = "src/main/resources/img_15_15_black_background/ghosts/pinky/pinky_U.png";
+        
+        Pacman pacman = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePath).build();
+        Ghost ghost1 = new Ghost.GhostBuilder(graphicShapeGhost1, physicShapeGhost1, imagePath2).build();
+        Ghost ghost2 = new Ghost.GhostBuilder(graphicShapeGhost2, physicShapeGhost2, imagePath3).build();
+        Ghost ghost3 = new Ghost.GhostBuilder(graphicShapeGhost3, physicShapeGhost3, imagePath4).build();
+        Ghost ghost4 = new Ghost.GhostBuilder(graphicShapeGhost4, physicShapeGhost4, imagePath5).build();
+        
+        
         pacman.getGraphicShape().setxPosition(100d);
         pacman.getGraphicShape().setyPosition(100d);
-
         board.addElement(pacman);
+        
+        ghost1.getGraphicShape().setxPosition(250d);
+        ghost1.getGraphicShape().setyPosition(250d);
+        board.addElement(ghost1);
+        
+        ghost2.getGraphicShape().setxPosition(150d);
+        ghost2.getGraphicShape().setyPosition(50d);
+        board.addElement(ghost2);
+        
+        ghost3.getGraphicShape().setxPosition(50d);
+        ghost3.getGraphicShape().setyPosition(250d);
+        board.addElement(ghost3);
+        
+        ghost4.getGraphicShape().setxPosition(50d);
+        ghost4.getGraphicShape().setyPosition(550d);
+        board.addElement(ghost4);
+        
         /*------------------------------------------------------------*/
 
 

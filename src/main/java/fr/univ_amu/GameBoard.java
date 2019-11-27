@@ -5,7 +5,10 @@ import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.io_engine.KeyboardControl;
+import fr.univ_amu.entity.Ghost;
+
 import javafx.scene.input.KeyEvent;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,17 @@ public class GameBoard {
         ).findFirst().get();
         */
     }
+    
+    public List<Ghost>  getGhosts() {
+    	List <Ghost> tmp1 = new ArrayList<>();
+        for(int i = 0; i < elements.size(); ++i) {
+            if (elements.get(i) instanceof Ghost) tmp1.add((Ghost) elements.get(i));
+        }
+
+        return tmp1;
+    }
+	
+
 
     public List<Element> getStaticElements(){
         List<Element> tmp = new ArrayList<>();
@@ -61,6 +75,7 @@ public class GameBoard {
     public void addElement(Element newElement){
         elements.add(newElement);
     }
+    
     public void addElements(List<Element> newElements){
         elements.addAll(newElements);
     }
@@ -73,3 +88,4 @@ public class GameBoard {
     }
 
 }
+	
