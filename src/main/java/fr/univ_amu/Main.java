@@ -70,8 +70,10 @@ public class Main {
         String imagePath3 = "src/main/resources/img_15_15_black_background/ghosts/clyde/clyde_L.png";
         String imagePath4 = "src/main/resources/img_15_15_black_background/ghosts/inky/inky_U.png";
         String imagePath5 = "src/main/resources/img_15_15_black_background/ghosts/pinky/pinky_U.png";
-        
-        Pacman pacman = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePath).build();
+
+        Pacman.PacmanBuilder pacmanBuilder = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePath);
+        pacmanBuilder.setSpeed(2);
+        Pacman pacman = pacmanBuilder.build();
         Ghost ghost1 = new Ghost.GhostBuilder(graphicShapeGhost1, physicShapeGhost1, imagePath2).build();
         Ghost ghost2 = new Ghost.GhostBuilder(graphicShapeGhost2, physicShapeGhost2, imagePath3).build();
         Ghost ghost3 = new Ghost.GhostBuilder(graphicShapeGhost3, physicShapeGhost3, imagePath4).build();
