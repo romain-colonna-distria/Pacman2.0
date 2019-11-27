@@ -6,20 +6,24 @@ public abstract class DynamicElement implements Element {
     public abstract double getSpeed();
     public abstract Direction getCurrentDirection();
 
-    void moveTo(){
-        switch (getCurrentDirection()){
-            case UP:
-                getGraphicShape().setxPosition(getGraphicShape().getxPosition() - getSpeed());
-                break;
-            case DOWN:
-                getGraphicShape().setxPosition(getGraphicShape().getxPosition() + getSpeed());
-                break;
-            case LEFT:
-                getGraphicShape().setyPosition(getGraphicShape().getyPosition() - getSpeed());
-                break;
-            case RIGHT:
-                getGraphicShape().setyPosition(getGraphicShape().getyPosition() + getSpeed());
-                break;
+    public void moveTo(){
+        if (getCurrentDirection() != null) {
+            switch (getCurrentDirection()) {
+                case UP:
+                    getGraphicShape().setyPosition(getGraphicShape().getyPosition() - getSpeed());
+                    break;
+                case DOWN:
+                    getGraphicShape().setyPosition(getGraphicShape().getyPosition() + getSpeed());
+                    break;
+                case LEFT:
+                    getGraphicShape().setxPosition(getGraphicShape().getxPosition() - getSpeed());
+                    break;
+                case RIGHT:
+                    getGraphicShape().setxPosition(getGraphicShape().getxPosition() + getSpeed());
+                    break;
+                default:
+                    ;
+            }
         }
     }
 }
