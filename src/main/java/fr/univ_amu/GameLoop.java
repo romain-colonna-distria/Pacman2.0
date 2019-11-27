@@ -1,4 +1,5 @@
-import fr.univ_amu.CoreKernel;
+package fr.univ_amu;
+
 import javafx.animation.AnimationTimer;
 
 

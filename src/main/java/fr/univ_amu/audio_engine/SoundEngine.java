@@ -1,4 +1,4 @@
-package fr.univ_amu.audio_name;
+package fr.univ_amu.audio_engine;
 
 import javafx.scene.media.AudioClip;
 

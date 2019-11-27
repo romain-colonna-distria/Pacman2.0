@@ -1,8 +1,11 @@
 package fr.univ_amu;
 
-import fr.univ_amu.audio_name.SoundEngine;
+import fr.univ_amu.audio_engine.SoundEngine;
+import fr.univ_amu.graphic_engine.GraphicEngine;
+import fr.univ_amu.graphic_engine.Window;
 import fr.univ_amu.io_engine.IOEngine;
 import fr.univ_amu.physic_engine.PhysicEngine;
+import javafx.application.Application;
 
 import java.io.IOException;
 
@@ -23,13 +26,19 @@ public class CoreKernel {
     public void updateGame() {
         try {
             //ioEngine.getInput();
-            boolean canMove = physicEngine.updatePhysicElements();
-            if(canMove)
-                graphicEngine.updateElementsInStage();
+            if(physicEngine.updatePhysicElements())
+                graphicEngine.updateView(Window.root);
             //soundEngine.playSound();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void startGame(){
+        GameLoop gameLoop = new GameLoop(this);
+        gameLoop.start();
+  
+        Application.launch(Window.class);
     }
 }
