@@ -3,9 +3,7 @@ package fr.univ_amu.audio_name;
 import javafx.scene.media.AudioClip;
 
 import java.io.File;
-import java.net.URI;
-import java.net.URL;
-import java.nio.file.Paths;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -18,7 +16,7 @@ import java.util.concurrent.Executors;
  * <pre> * User: cdea
  */
 public class SoundManager {
-    ExecutorService soundPool = Executors.newFixedThreadPool(2);
+    ExecutorService soundPool;
     Map<String, AudioClip> soundEffectsMap = new HashMap<>();
 
     /**

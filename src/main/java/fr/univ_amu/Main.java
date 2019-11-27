@@ -3,9 +3,9 @@ package fr.univ_amu;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.entity.Ghost;
 import fr.univ_amu.entity.Pacman;
-import fr.univ_amu.utils.Direction;
 import fr.univ_amu.utils.Shape2D;
 import fr.univ_amu.utils.Utils;
+
 import javafx.application.Application;
 
 import java.util.List;

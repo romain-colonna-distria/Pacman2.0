@@ -43,7 +43,6 @@ public class Window extends Application {
         primaryStage.setScene(theScene);
         primaryStage.sizeToScene();
 
-        //System.out.println(GameBoard.getInstance());
         setElementsInStage(GameBoard.getInstance());
 
         EventHandler<KeyEvent> keyPressed = createKeyEvent(keyboardControl);
