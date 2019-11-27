@@ -2,31 +2,32 @@ package fr.univ_amu.physic_engine;
 
 
 import fr.univ_amu.GameBoard;
-import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.utils.Shape2D;
 
 
 public class PhysicEngine {
-    public boolean move(DynamicElement element){
+    public void update(){
         GameBoard gb = GameBoard.getInstance();
         Pacman pacman = gb.getPacman();
 
+        Shape2D save = pacman.getPhysiqueShape();
 
-        Shape2D save = element.getPhysiqueShape();
-
-        element.movePhysicShape();
+        pacman.movePhysicShape();
 
 
-        boolean isCollision = true;
-        for(StaticElement e : gb.getWalls())
-            if(Collision.checkCollision(e.getPhysiqueShape(), pacman.getPhysiqueShape())){
-                isCollision = false;
-                element.getPhysiqueShape().setxPosition(save.getxPosition());
-                element.getPhysiqueShape().setyPosition(save.getyPosition());
+        boolean isCollision = false;
+        for(StaticElement e : gb.getWalls()) {
+            if (Collision.checkCollision(e.getPhysiqueShape(), pacman.getPhysiqueShape())) {
+                isCollision = true;
+                pacman.getPhysiqueShape().setxPosition(save.getxPosition());
+                pacman.getPhysiqueShape().setyPosition(save.getyPosition());
             }
+        }
 
-        return isCollision;
+        if(!isCollision){
+            pacman.moveGraphicShape();
+        }
     }
 }
