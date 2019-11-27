@@ -3,6 +3,7 @@ package fr.univ_amu;
 import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.Element;
 
+import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.io_engine.Control;
 import fr.univ_amu.io_engine.KeyboardControl;
@@ -94,7 +95,7 @@ public class Window extends Application {
         
         
         /*--------- Static elements ---------*/
-        List<Element> elements = board.getStaticElements();
+        List<StaticElement> elements = board.getStaticElements();
         Element staticElement;
         List<ImageView> ivs = new ArrayList<>();
         Image image;
@@ -128,7 +129,7 @@ public class Window extends Application {
         //MoveTo()
         int step = 3;
         GameBoard board = GameBoard.getInstance();
-        Pacman pacman = (Pacman) board.getPacman();
+        Pacman pacman = board.getPacman();
         double x = pacman.getPhysiqueShape().getxPosition();
         double y = pacman.getPhysiqueShape().getyPosition();
 

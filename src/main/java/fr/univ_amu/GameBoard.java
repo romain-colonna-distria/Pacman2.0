@@ -5,6 +5,7 @@ import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.entity.Ghost;
+import fr.univ_amu.entity.Wall;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,9 @@ public class GameBoard {
         this.elements = new ArrayList<>();
     }
 
-    public Element getPacman(){
+    public Pacman getPacman(){
         for(int i = 0; i < elements.size(); ++i) {
-            if (elements.get(i) instanceof Pacman) return elements.get(i);
+            if (elements.get(i) instanceof Pacman) return (Pacman) elements.get(i);
         }
 
         return null;
@@ -42,19 +43,28 @@ public class GameBoard {
 	
 
 
-    public List<Element> getStaticElements(){
-        List<Element> tmp = new ArrayList<>();
+    public List<StaticElement> getStaticElements(){
+        List<StaticElement> tmp = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
-            if (elements.get(i) instanceof StaticElement) tmp.add(elements.get(i));
+            if (elements.get(i) instanceof StaticElement) tmp.add((StaticElement) elements.get(i));
         }
 
         return tmp;
     }
 
-    public List<Element> getDynamicElements() {
-        List<Element> tmp = new ArrayList<>();
+    public List<DynamicElement> getDynamicElements() {
+        List<DynamicElement> tmp = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
-            if (elements.get(i) instanceof DynamicElement) tmp.add(elements.get(i));
+            if (elements.get(i) instanceof DynamicElement) tmp.add((DynamicElement) elements.get(i));
+        }
+
+        return tmp;
+    }
+
+    public List<Wall> getWalls(){
+        List<Wall> tmp = new ArrayList<>();
+        for(int i = 0; i < elements.size(); ++i) {
+            if (elements.get(i) instanceof Wall) tmp.add((Wall) elements.get(i));
         }
 
         return tmp;
