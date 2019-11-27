@@ -51,6 +51,9 @@ public class Pacman extends DynamicElement implements Playable {
         return physicShape;
     }
 
+    public void setCurrentDirection(Direction currentDirection) {
+        this.currentDirection = currentDirection;
+    }
 
     public static class PacmanBuilder {
         private Shape2D graphicShape;

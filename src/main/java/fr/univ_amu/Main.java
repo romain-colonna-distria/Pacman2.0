@@ -5,6 +5,7 @@ import fr.univ_amu.entity.Ghost;
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.utils.Shape2D;
 import fr.univ_amu.utils.Utils;
+
 import javafx.application.Application;
 
 import java.util.List;
@@ -64,10 +65,8 @@ public class Main {
         physicShapeGhost4.setWidth(ELEMENT_WIDTH);
         physicShapeGhost4.setHeigth(ELEMENT_HEIGTH);
 
-        String imagePath = "src/main/resources/img_15_15_black_background/pacman/pacman_eat_1.png";
-        
-       String imagePath2 = "src/main/resources/img_15_15_black_background/ghosts/blinky/blinky_L.png";
-        
+        String imagePath = "src/main/resources/img_15_15_black_background/pacman/pacman_eat_1.png";      
+        String imagePath2 = "src/main/resources/img_15_15_black_background/ghosts/blinky/blinky_L.png";    
         String imagePath3 = "src/main/resources/img_15_15_black_background/ghosts/clyde/clyde_L.png";
         String imagePath4 = "src/main/resources/img_15_15_black_background/ghosts/inky/inky_U.png";
         String imagePath5 = "src/main/resources/img_15_15_black_background/ghosts/pinky/pinky_U.png";
@@ -130,7 +129,6 @@ public class Main {
 
         board.addElements(elements);
         /*------------------------------------------------------------*/
-
 
         Application.launch(Window.class);
     }

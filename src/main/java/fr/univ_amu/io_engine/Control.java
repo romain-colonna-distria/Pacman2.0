@@ -42,4 +42,11 @@ public class Control {
     public boolean isDown() {
         return down;
     }
+
+    public void setAll(boolean b) {
+        setLeft(b);
+        setRight(b);
+        setUp(b);
+        setDown(b);
+    }
 }
