@@ -1,6 +1,5 @@
 package fr.univ_amu;
 
-import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.entity.Pacman;
@@ -8,6 +7,7 @@ import fr.univ_amu.entity.Ghost;
 import fr.univ_amu.entity.Wall;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -52,6 +52,7 @@ public class GameBoard {
         return tmp;
     }
 
+    /*
     public List<DynamicElement> getDynamicElements() {
         List<DynamicElement> tmp = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
@@ -60,6 +61,7 @@ public class GameBoard {
 
         return tmp;
     }
+    */
 
     public List<Wall> getWalls(){
         List<Wall> tmp = new ArrayList<>();
@@ -68,6 +70,10 @@ public class GameBoard {
         }
 
         return tmp;
+    }
+
+    public List<Element> getElements(){
+        return elements;
     }
 
     public static GameBoard getInstance(){
@@ -81,9 +87,10 @@ public class GameBoard {
         elements.add(newElement);
     }
     
-    public void addElements(List<Element> newElements){
+    public void addElements(Collection<Element> newElements){
         elements.addAll(newElements);
     }
+
 
     @Override
     public String toString() {

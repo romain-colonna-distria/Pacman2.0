@@ -8,14 +8,12 @@ import fr.univ_amu.utils.Shape2D;
 
 
 public class PhysicEngine {
-    public void update(){
+    public boolean updatePhysicElements(){
         GameBoard gb = GameBoard.getInstance();
         Pacman pacman = gb.getPacman();
-
         Shape2D save = pacman.getPhysiqueShape();
 
         pacman.movePhysicShape();
-
 
         boolean isCollision = false;
         for(StaticElement e : gb.getWalls()) {
@@ -29,5 +27,7 @@ public class PhysicEngine {
         if(!isCollision){
             pacman.moveGraphicShape();
         }
+
+        return isCollision;
     }
 }

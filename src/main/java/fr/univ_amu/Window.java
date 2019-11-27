@@ -71,9 +71,9 @@ public class Window extends Application {
         iv.setX(pacman.getGraphicShape().getxPosition());
         iv.setY(pacman.getGraphicShape().getyPosition());
 
-        
+
         /*------------- Ghost -------------*/
-        
+
         List<Ghost> elements1 = board.getGhosts();
         Ghost ghost;
         List<ImageView> iv2 = new ArrayList<>();
@@ -92,8 +92,8 @@ public class Window extends Application {
             iv2.get(i).setX(ghost.getGraphicShape().getxPosition());
             iv2.get(i).setY(ghost.getGraphicShape().getyPosition());
         }
-        
-        
+
+
         /*--------- Static elements ---------*/
         List<StaticElement> elements = board.getStaticElements();
         Element staticElement;
