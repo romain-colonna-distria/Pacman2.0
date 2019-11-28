@@ -27,13 +27,12 @@ public class ConfigurationsFile {
     }
 
     private BufferedReader createFileReader(String fileName){
-        try(BufferedReader fileReader = new BufferedReader(new FileReader(fileName))){
+        try{
+            FileReader reader = new FileReader(fileName);
+            BufferedReader fileReader = new BufferedReader(reader);
             return fileReader;
         } catch (FileNotFoundException e) {
             System.err.println("Fichier de configuration introuvalble.");
-            System.exit(1);
-        } catch (IOException e) {
-            System.err.println("Erreur lors de la création du bufferedReader.");
             System.exit(1);
         }
         return null;
