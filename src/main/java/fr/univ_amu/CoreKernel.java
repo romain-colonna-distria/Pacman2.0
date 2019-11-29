@@ -39,8 +39,6 @@ public class CoreKernel {
             if(GameBoard.getInstance().getElements().get(i) instanceof Pacman) break;
         }
 
-        System.out.println("place: " + (i + 1) + "/" + GameBoard.getInstance().getElements().size());
-
         GameLoop gameLoop = new GameLoop(this);
         gameLoop.start();
 
