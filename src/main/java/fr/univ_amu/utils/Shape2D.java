@@ -37,4 +37,14 @@ public class Shape2D {
     public void setHeigth(double heigth) {
         this.heigth = heigth;
     }
+
+    @Override
+    public String toString() {
+        return "Shape2D[" +
+                "xPosition: " + xPosition +
+                ", yPosition: " + yPosition +
+                ", width: " + width +
+                ", heigth: " + heigth +
+                ']';
+    }
 }
