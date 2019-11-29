@@ -2,6 +2,8 @@ package fr.univ_amu.physic_engine;
 
 
 import fr.univ_amu.GameBoard;
+import fr.univ_amu.behavior.Interactable;
+import fr.univ_amu.element.Element;
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.entity.Wall;
 
@@ -19,6 +21,13 @@ public class PhysicEngine {
             if (Collision.checkCollision(pacman.getPhysiqueShape(), w.getPhysiqueShape())) {
                 isCollision = true;
                 break;
+            }
+        }
+
+        for(Element e : board.getInteractableElements()){
+            if(Collision.checkCollision(pacman.getPhysiqueShape(), e.getPhysiqueShape())){
+                ((Interactable)e).interact(pacman);
+                return false;
             }
         }
 

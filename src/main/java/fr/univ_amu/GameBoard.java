@@ -1,5 +1,6 @@
 package fr.univ_amu;
 
+import fr.univ_amu.behavior.Interactable;
 import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
@@ -62,6 +63,15 @@ public class GameBoard {
         List<Wall> tmp = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
             if (elements.get(i) instanceof Wall) tmp.add((Wall) elements.get(i));
+        }
+
+        return tmp;
+    }
+
+    public List<Element> getInteractableElements(){
+        List<Element> tmp = new ArrayList<>();
+        for(int i = 0; i < elements.size(); ++i) {
+            if (elements.get(i) instanceof Interactable) tmp.add(elements.get(i));
         }
 
         return tmp;

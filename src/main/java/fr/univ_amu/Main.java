@@ -4,6 +4,8 @@ import fr.univ_amu.audio_engine.SoundEngine;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.entity.Ghost;
 import fr.univ_amu.entity.Pacman;
+import fr.univ_amu.entity.Teleporter;
+import fr.univ_amu.entity.Trail;
 import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.io_engine.KeyboardController;
 import fr.univ_amu.physic_engine.PhysicEngine;
@@ -13,7 +15,7 @@ import fr.univ_amu.utils.Utils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 
 
 @SuppressWarnings("Duplicates")
@@ -122,6 +124,24 @@ public class Main {
         }
 
         board.addElements(elements);
+        /*------------------------------------------------------------*/
+
+
+        /*--------------------- init teleporters ---------------------*/
+        List<Trail> trails = new ArrayList<>();
+        for(Element e : board.getElements()){
+            if(!(e instanceof Trail)) continue;
+            trails.add((Trail) e);
+        }
+
+        Random random = new Random(437524363839402L);
+        int randdomPos = random.nextInt(trails.size());
+
+
+        for(int i = 0; i < board.getElements().size(); ++i){
+            if(!(board.getElements().get(i) instanceof Teleporter)) continue;
+            ((Teleporter) board.getElements().get(i)).bind(trails.get(randdomPos));
+        }
         /*------------------------------------------------------------*/
 
 
