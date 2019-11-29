@@ -27,6 +27,27 @@ public abstract class DynamicElement implements Element {
         }
     }
 
+    public void undoMovePhysicShape(){
+        if (getCurrentDirection() != null) {
+            switch (getCurrentDirection()) {
+                case UP:
+                    getPhysiqueShape().setyPosition(getPhysiqueShape().getyPosition() + getSpeed());
+                    break;
+                case DOWN:
+                    getPhysiqueShape().setyPosition(getPhysiqueShape().getyPosition() - getSpeed());
+                    break;
+                case LEFT:
+                    getPhysiqueShape().setxPosition(getPhysiqueShape().getxPosition() + getSpeed());
+                    break;
+                case RIGHT:
+                    getPhysiqueShape().setxPosition(getPhysiqueShape().getxPosition() - getSpeed());
+                    break;
+                default:
+                    ;
+            }
+        }
+    }
+
     public void moveGraphicShape(){
         if (getCurrentDirection() != null) {
             switch (getCurrentDirection()) {

@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigurationsFile {
-    private static final int KEY = 0;
-    private static final int VALUE = 1;
+    private static final int KEY = 1; // l'action (ex: left, up, ...)
+    private static final int VALUE = 0; // la touche (ex: q, z, ...)
     private Map<String, String> configs = new HashMap<>();
 
     public ConfigurationsFile(String fileName) throws IOException {
@@ -20,7 +20,7 @@ public class ConfigurationsFile {
         while ((configLineTmp = fileReader.readLine()) != null){
             tokens = configLineTmp.split("=");
             verifyLineFormat(tokens);
-            configs.put(tokens[KEY], tokens[VALUE]);
+            configs.put(tokens[KEY].toLowerCase(), tokens[VALUE].toLowerCase());
         }
 
         fileReader.close();

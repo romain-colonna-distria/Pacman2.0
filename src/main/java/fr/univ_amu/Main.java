@@ -5,13 +5,16 @@ import fr.univ_amu.element.Element;
 import fr.univ_amu.entity.Ghost;
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.graphic_engine.GraphicEngine;
-import fr.univ_amu.io_engine.IOEngine;
+import fr.univ_amu.io_engine.KeyboardController;
 import fr.univ_amu.physic_engine.PhysicEngine;
 import fr.univ_amu.utils.Shape2D;
 import fr.univ_amu.utils.Utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+
 
 @SuppressWarnings("Duplicates")
 public class Main {
@@ -24,7 +27,7 @@ public class Main {
     //private static double DELTA_Y_UP = 0d;
     //private static double DELTA_Y_DOWN = 0d;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException, IOException {
         GameBoard board = GameBoard.getInstance();
 
         /*-------------------------- Pacman --------------------------*/
@@ -35,7 +38,7 @@ public class Main {
         graphicShapePacman.setHeigth(ELEMENT_HEIGTH);
         graphicShapePacman.setxPosition(100d);
         graphicShapePacman.setyPosition(100d);
-        
+
         Shape2D physicShapePacman = new Shape2D();
         physicShapePacman.setWidth(ELEMENT_WIDTH);
         physicShapePacman.setHeigth(ELEMENT_HEIGTH);
@@ -43,13 +46,13 @@ public class Main {
         physicShapePacman.setyPosition(100d);
 
         Pacman pacman = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePacman)
-                .setSpeed(2)
+                .setSpeed(1)
                 .build();
 
         board.addElement(pacman);
         /*------------------------------------------------------------*/
-        
-        
+
+
         /*-------------------------- Ghosts --------------------------*/
         String imageBlinky = "src/main/resources/img_15_15_black_background/ghosts/blinky/blinky_L.png";
         String imageClyde = "src/main/resources/img_15_15_black_background/ghosts/clyde/clyde_L.png";
@@ -66,14 +69,14 @@ public class Main {
             graphicShape2Ds.add(new Shape2D());
             graphicShape2Ds.get(i).setWidth(ELEMENT_WIDTH);
             graphicShape2Ds.get(i).setHeigth(ELEMENT_HEIGTH);
-            graphicShape2Ds.get(i).setxPosition(255d);
-            graphicShape2Ds.get(i).setyPosition(255d);
+            graphicShape2Ds.get(i).setxPosition(280d);
+            graphicShape2Ds.get(i).setyPosition(280d);
 
             physicShape2Ds.add(new Shape2D());
             physicShape2Ds.get(i).setWidth(ELEMENT_WIDTH);
             physicShape2Ds.get(i).setHeigth(ELEMENT_HEIGTH);
-            physicShape2Ds.get(i).setxPosition(255d);
-            physicShape2Ds.get(i).setyPosition(255d);
+            physicShape2Ds.get(i).setxPosition(280d);
+            physicShape2Ds.get(i).setyPosition(280d);
         }
 
         images.add(imageBlinky);
@@ -108,6 +111,8 @@ public class Main {
         for(Element e : elements){
             e.getGraphicShape().setxPosition(j * ELEMENT_WIDTH);
             e.getGraphicShape().setyPosition(k * ELEMENT_HEIGTH);
+            e.getPhysiqueShape().setxPosition(j * ELEMENT_WIDTH);
+            e.getPhysiqueShape().setyPosition(k * ELEMENT_HEIGTH);
 
             ++j;
             if(j == NB_COLUMN){
@@ -123,10 +128,20 @@ public class Main {
         /*----------------------- core kernel ------------------------*/
         PhysicEngine physicEngine = new PhysicEngine();
         GraphicEngine graphicEngine = new GraphicEngine();
-        IOEngine ioEngine = new IOEngine();
         SoundEngine soundEngine = new SoundEngine(1);
 
-        CoreKernel kernel = new CoreKernel(physicEngine, graphicEngine, ioEngine, soundEngine);
+
+        CoreKernel kernel = new CoreKernel(physicEngine, graphicEngine, soundEngine);
+        try {
+            KeyboardController keyControl = new KeyboardController();
+            //MouseController mouseControl = new MouseController();
+
+            kernel.addInputsControl(keyControl.getEventType(), keyControl);
+            //kernel.addInputsControl(mouseControl.getEventType(), mouseControl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         kernel.startGame();
         /*------------------------------------------------------------*/
     }

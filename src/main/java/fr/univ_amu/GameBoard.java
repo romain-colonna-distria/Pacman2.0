@@ -1,5 +1,6 @@
 package fr.univ_amu;
 
+import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.entity.Pacman;
@@ -25,13 +26,8 @@ public class GameBoard {
         }
 
         return null;
-        /*
-        return elements.parallelStream().filter(e ->
-                e.getClass().equals(Pacman.class)
-        ).findFirst().get();
-        */
     }
-    
+
     public List<Ghost>  getGhosts() {
     	List <Ghost> tmp1 = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
@@ -40,7 +36,6 @@ public class GameBoard {
 
         return tmp1;
     }
-	
 
 
     public List<StaticElement> getStaticElements(){
@@ -52,7 +47,7 @@ public class GameBoard {
         return tmp;
     }
 
-    /*
+
     public List<DynamicElement> getDynamicElements() {
         List<DynamicElement> tmp = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
@@ -61,7 +56,7 @@ public class GameBoard {
 
         return tmp;
     }
-    */
+
 
     public List<Wall> getWalls(){
         List<Wall> tmp = new ArrayList<>();

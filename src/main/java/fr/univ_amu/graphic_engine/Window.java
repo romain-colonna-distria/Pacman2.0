@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class Window extends Application {
     public static Group root = new Group();
-    private Scene theScene = new Scene(root);
+    public static Scene theScene = new Scene(root);
     private boolean isFullScrean = false;
 
 
