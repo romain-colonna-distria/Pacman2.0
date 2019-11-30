@@ -11,11 +11,12 @@ public class Window extends Application {
     public static Group root = new Group();
     public static Scene theScene = new Scene(root);
     private boolean isFullScrean = false;
+    private static Stage stage;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setTitle("Pacman");
+        stage = primaryStage;
 
         primaryStage.setScene(theScene);
         primaryStage.sizeToScene();
@@ -24,5 +25,9 @@ public class Window extends Application {
         primaryStage.setFullScreen(isFullScrean);
 
         primaryStage.show();
+    }
+
+    public static Stage getStage() {
+        return stage;
     }
 }

@@ -1,7 +1,6 @@
 package fr.univ_amu;
 
 import fr.univ_amu.audio_engine.SoundEngine;
-import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.graphic_engine.Window;
 import fr.univ_amu.io_engine.InputsController;
@@ -19,6 +18,7 @@ public class CoreKernel {
     private GraphicEngine graphicEngine;
     private SoundEngine soundEngine;
     private Direction desiredDirection = null;
+    private int fps;
 
     private List<InputsController> inputsControls = new ArrayList<>();
 
@@ -32,12 +32,8 @@ public class CoreKernel {
     public void startGame() throws IOException {
         graphicEngine.loadStaticsElements();
         graphicEngine.loadDynamicsElements();
-        graphicEngine.displayElements(Window.root);
-
-        int i = 0;
-        for(; i < Window.root.getChildren().size(); ++ i){
-            if(GameBoard.getInstance().getElements().get(i) instanceof Pacman) break;
-        }
+        GraphicEngine.displayElements(Window.root);
+        graphicEngine.updateInteractableElements(); //pour les replacer au premier plan
 
         GameLoop gameLoop = new GameLoop(this);
         gameLoop.start();
@@ -52,6 +48,15 @@ public class CoreKernel {
         }
         if(inputsControls.size() < 1){
             System.err.println("No InputsController detected.");
+        }
+
+        if(Window.getStage() != null) {
+            Window.getStage().setTitle(
+                    "fps: " +
+                            "    Pacman" +
+                            "    Score: " + GameBoard.getInstance().getPacman().getScore() +
+                            "    Vie: " + GameBoard.getInstance().getPacman().getLifes()
+            );
         }
 
         Direction newDirection = inputsControls.get(0).getDirection();

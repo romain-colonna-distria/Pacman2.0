@@ -28,4 +28,9 @@ public class Trail extends StaticElement {
     public Shape2D getPhysiqueShape() {
         return physicShape;
     }
+
+    @Override
+    public void setImage(String image) {
+        this.image = image;
+    }
 }

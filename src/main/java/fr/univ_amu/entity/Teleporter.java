@@ -1,7 +1,6 @@
 package fr.univ_amu.entity;
 
 import fr.univ_amu.behavior.Interactable;
-import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.utils.Shape2D;
@@ -35,14 +34,28 @@ public class Teleporter extends StaticElement implements Interactable {
     }
 
     @Override
-    public void interact(DynamicElement element) {
-        element.getPhysiqueShape().setxPosition(boundElement.getPhysiqueShape().getxPosition());
-        element.getPhysiqueShape().setyPosition(boundElement.getPhysiqueShape().getyPosition());
-        element.getGraphicShape().setxPosition(boundElement.getGraphicShape().getxPosition());
-        element.getGraphicShape().setyPosition(boundElement.getGraphicShape().getyPosition());
+    public void interact(Element element) {
+        element.getPhysiqueShape().setxPosition(260d);
+        element.getPhysiqueShape().setyPosition(340);
+        element.getGraphicShape().setxPosition(260d);
+        element.getGraphicShape().setyPosition(340);
+
+//        element.getPhysiqueShape().setxPosition(GraphicEngine.elementImageViewHashMap.get(boundElement).getX());
+//        element.getPhysiqueShape().setyPosition(GraphicEngine.elementImageViewHashMap.get(boundElement).getY());
+//        element.getGraphicShape().setxPosition(GraphicEngine.elementImageViewHashMap.get(boundElement).getX());
+//        element.getGraphicShape().setyPosition(GraphicEngine.elementImageViewHashMap.get(boundElement).getY());
     }
 
     public void bind(Element element){
         boundElement = element;
+    }
+
+    public Element getBoundElement() {
+        return boundElement;
+    }
+
+    @Override
+    public void setImage(String image) {
+        this.image = image;
     }
 }

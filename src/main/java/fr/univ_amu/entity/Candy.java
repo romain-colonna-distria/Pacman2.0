@@ -1,7 +1,10 @@
 package fr.univ_amu.entity;
 
 import fr.univ_amu.behavior.Eatable;
+import fr.univ_amu.behavior.Playable;
+import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
+import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.utils.Shape2D;
 
 public class Candy extends StaticElement implements Eatable {
@@ -26,12 +29,25 @@ public class Candy extends StaticElement implements Eatable {
     }
 
     @Override
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
     public Shape2D getPhysiqueShape() {
         return physicShape;
     }
 
     @Override
-    public void giveEffect() {
+    public void giveEffect(Element element) {
+        if(element instanceof Playable){
+            ((Playable) element).addPoints(100);
+            GraphicEngine.removeElement(this);
+        }
+    }
 
+    @Override
+    public void interact(Element element) {
+        giveEffect(element);
     }
 }

@@ -2,10 +2,7 @@ package fr.univ_amu;
 
 import fr.univ_amu.audio_engine.SoundEngine;
 import fr.univ_amu.element.Element;
-import fr.univ_amu.entity.Ghost;
-import fr.univ_amu.entity.Pacman;
-import fr.univ_amu.entity.Teleporter;
-import fr.univ_amu.entity.Trail;
+import fr.univ_amu.entity.*;
 import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.io_engine.KeyboardController;
 import fr.univ_amu.physic_engine.PhysicEngine;
@@ -38,17 +35,19 @@ public class Main {
         Shape2D graphicShapePacman = new Shape2D();
         graphicShapePacman.setWidth(ELEMENT_WIDTH);
         graphicShapePacman.setHeigth(ELEMENT_HEIGTH);
-        graphicShapePacman.setxPosition(100d);
-        graphicShapePacman.setyPosition(100d);
+        graphicShapePacman.setxPosition(260d);
+        graphicShapePacman.setyPosition(340d);
 
         Shape2D physicShapePacman = new Shape2D();
         physicShapePacman.setWidth(ELEMENT_WIDTH);
         physicShapePacman.setHeigth(ELEMENT_HEIGTH);
-        physicShapePacman.setxPosition(100d);
-        physicShapePacman.setyPosition(100d);
+        physicShapePacman.setxPosition(260d);
+        physicShapePacman.setyPosition(340d);
 
         Pacman pacman = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePacman)
                 .setSpeed(1)
+                .setScore(0)
+                .setLifes(3)
                 .build();
 
         board.addElement(pacman);
@@ -129,19 +128,29 @@ public class Main {
 
         /*--------------------- init teleporters ---------------------*/
         List<Trail> trails = new ArrayList<>();
-        for(Element e : board.getElements()){
+        for(Element e : elements){
             if(!(e instanceof Trail)) continue;
             trails.add((Trail) e);
         }
 
-        Random random = new Random(437524363839402L);
-        int randdomPos = random.nextInt(trails.size());
+        Random random = new Random();
+        int randdomPos = random.nextInt(trails.size() - 1);
 
 
-        for(int i = 0; i < board.getElements().size(); ++i){
-            if(!(board.getElements().get(i) instanceof Teleporter)) continue;
-            ((Teleporter) board.getElements().get(i)).bind(trails.get(randdomPos));
+        for(int i = 0; i < elements.size(); ++i){
+            if(!(elements.get(i) instanceof Teleporter)) continue;
+            ((Teleporter) elements.get(i)).bind(trails.get(randdomPos));
         }
+        /*------------------------------------------------------------*/
+
+
+        /*------------------------ init candy ------------------------*/
+        List<Element> candies = new ArrayList<>();
+        String imageCandy = "src/main/resources/empty_cross.png";
+        for (Trail t : trails){
+            candies.add(new Candy(t.getGraphicShape(), t.getPhysiqueShape(), imageCandy));
+        }
+        board.addElements(candies);
         /*------------------------------------------------------------*/
 
 
