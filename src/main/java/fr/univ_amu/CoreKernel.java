@@ -4,6 +4,7 @@ import fr.univ_amu.audio_engine.SoundEngine;
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.graphic_engine.Window;
+import fr.univ_amu.ia_engine.IA;
 import fr.univ_amu.io_engine.InputsController;
 import fr.univ_amu.physic_engine.PhysicEngine;
 import fr.univ_amu.utils.Direction;
@@ -19,6 +20,7 @@ public class CoreKernel {
     private GraphicEngine graphicEngine;
     private SoundEngine soundEngine;
     private Direction desiredDirection = null;
+    private IA ia;
 
     private List<InputsController> inputsControls = new ArrayList<>();
 
@@ -33,6 +35,7 @@ public class CoreKernel {
         graphicEngine.loadStaticsElements();
         graphicEngine.loadDynamicsElements();
         graphicEngine.displayElements(Window.root);
+        ia = new IA();
 
         int i = 0;
         for(; i < Window.root.getChildren().size(); ++ i){
@@ -73,6 +76,7 @@ public class CoreKernel {
             }
         }
 
+        ia.processDirection();
 
         //soundEngine.playSound();
     }

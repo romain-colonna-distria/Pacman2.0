@@ -50,6 +50,9 @@ public class Ghost extends DynamicElement implements Playable {
         return physicShape;
     }
 
+    public void setCurrentDirection(Direction currentDirection) {
+        this.currentDirection = currentDirection;
+    }
 
     public static class GhostBuilder {
         private Shape2D graphicShape;
