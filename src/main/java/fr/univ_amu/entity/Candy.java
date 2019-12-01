@@ -11,6 +11,7 @@ public class Candy extends StaticElement implements Eatable {
     private Shape2D graphicShape;
     private Shape2D physicShape;
     private String image;
+    private int points = 10;
 
     public Candy(Shape2D graphicShape, Shape2D physicShape, String image) {
         this.graphicShape = graphicShape;
@@ -41,7 +42,7 @@ public class Candy extends StaticElement implements Eatable {
     @Override
     public void giveEffect(Element element) {
         if(element instanceof Playable){
-            ((Playable) element).addPoints(100);
+            ((Playable) element).addPoints(this.points);
             GraphicEngine.removeElement(this);
         }
     }
