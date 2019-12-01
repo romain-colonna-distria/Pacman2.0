@@ -77,7 +77,7 @@ public class Ghost extends DynamicElement implements Playable, Interactable {
 
     @Override
     public void interact(Element element) {
-        //System.out.println("Coucou");
+        if(element instanceof Pacman) ((Pacman) element).retrievLife();
     }
 
 

@@ -86,6 +86,11 @@ public class Pacman extends DynamicElement implements Playable {
         return lifes;
     }
 
+    public void retrievLife(){
+        if(this.lifes == 0) return;
+        --lifes;
+    }
+
     public static class PacmanBuilder {
         private Shape2D graphicShape;
         private Shape2D physicShape;
