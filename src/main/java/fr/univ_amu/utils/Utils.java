@@ -100,6 +100,10 @@ public class Utils {
                 imagePath = "src/main/resources/red.png";
                 element = new Teleporter(gs, ps, imagePath);
                 break;
+            case 'i': //mur plein
+                imagePath = "src/main/resources/img_15_15_black_background/black.png";
+                element = new Wall(gs, ps, imagePath);
+                break;
             default:
                 System.err.println("conversion inconnu: " + character);
                 imagePath = "src/main/resources/empty_cross.png";
