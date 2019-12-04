@@ -84,16 +84,16 @@ public class GameBoard {
         for (Trail trail : getTrails()) {
             double trail_x = trail.getPhysiqueShape().getxPosition();
             double trail_y = trail.getPhysiqueShape().getyPosition();
-            if (trail_x + trail.getPhysiqueShape().getWidth() == current_trail_x) {
+            if (trail_x + trail.getPhysiqueShape().getWidth() == current_trail_x && trail_y == current_trail_y) {
                 neighbors.add(trail);
             }
-            if (trail_x - trail.getPhysiqueShape().getWidth() == current_trail_x) {
+            if (trail_x - trail.getPhysiqueShape().getWidth() == current_trail_x && trail_y == current_trail_y) {
                 neighbors.add(trail);
             }
-            if (trail_y + trail.getPhysiqueShape().getHeigth() == current_trail_y) {
+            if (trail_y + trail.getPhysiqueShape().getHeigth() == current_trail_y && trail_x == current_trail_x) {
                 neighbors.add(trail);
             }
-            if (trail_y - trail.getPhysiqueShape().getHeigth() == current_trail_y) {
+            if (trail_y - trail.getPhysiqueShape().getHeigth() == current_trail_y && trail_x == current_trail_x) {
                 neighbors.add(trail);
             }
         }

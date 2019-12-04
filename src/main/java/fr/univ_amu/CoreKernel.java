@@ -76,7 +76,7 @@ public class CoreKernel {
             }
         }
 
-        ia.processDirection();
+        ia.run();
 
         //soundEngine.playSound();
     }
