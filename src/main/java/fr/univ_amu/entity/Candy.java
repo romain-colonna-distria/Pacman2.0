@@ -1,5 +1,6 @@
 package fr.univ_amu.entity;
 
+import fr.univ_amu.audio_engine.SoundEngine;
 import fr.univ_amu.behavior.Eatable;
 import fr.univ_amu.behavior.Playable;
 import fr.univ_amu.element.Element;
@@ -44,11 +45,14 @@ public class Candy extends StaticElement implements Eatable {
         if(element instanceof Playable){
             ((Playable) element).addPoints(this.points);
             GraphicEngine.removeElement(this);
+
         }
     }
 
     @Override
     public void interact(Element element) {
         giveEffect(element);
+        SoundEngine.playSound("chomp");
+
     }
 }
