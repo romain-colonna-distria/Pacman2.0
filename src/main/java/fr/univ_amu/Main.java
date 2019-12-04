@@ -1,6 +1,7 @@
 package fr.univ_amu;
 
 import fr.univ_amu.audio_engine.SoundEngine;
+import fr.univ_amu.audio_engine.SoundLoader;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.entity.*;
 import fr.univ_amu.graphic_engine.GraphicEngine;
@@ -28,7 +29,6 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, IOException {
         GameBoard board = GameBoard.getInstance();
-
         /*-------------------------- Pacman --------------------------*/
         String imagePacman = "src/main/resources/img_15_15_black_background/pacman/pacman_eat_1.png";
 
@@ -157,8 +157,7 @@ public class Main {
         /*----------------------- core kernel ------------------------*/
         PhysicEngine physicEngine = new PhysicEngine();
         GraphicEngine graphicEngine = new GraphicEngine();
-        SoundEngine soundEngine = new SoundEngine(1);
-
+        SoundEngine soundEngine = new SoundEngine(new SoundLoader("src/main/resources/sound_config.conf"));
 
         CoreKernel kernel = new CoreKernel(physicEngine, graphicEngine, soundEngine);
         try {

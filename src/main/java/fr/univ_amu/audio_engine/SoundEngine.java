@@ -20,8 +20,8 @@ public class SoundEngine {
     static Map<String, SoundClip> soundEffectsMap = new HashMap<>();
     SoundLoader soundLoader;
 
-    public SoundEngine() throws IOException {
-        soundEffectsMap = SoundLoader.loadSound("src/main/resources/sound_config.conf");
+    public SoundEngine(SoundLoader soundLoader) throws IOException {
+        soundEffectsMap = soundLoader.loadSound();
     }
     /**
      * Lookup a name resource to play sound based on the id.

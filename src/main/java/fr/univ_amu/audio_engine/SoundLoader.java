@@ -13,12 +13,12 @@ public class SoundLoader {
     ConfigurationsFile configurationsFile;
     Map<String, SoundClip> soundEffectsMap = new HashMap<>();
 
-    static Map<String, SoundClip> loadSound(String soundConfigFilePath) throws IOException {
-        ConfigurationsFile configurationsFile;
-        Map<String, SoundClip> soundEffectsMap = new HashMap<>();
+    public SoundLoader(String soundConfigFilePath) throws IOException {
         configurationsFile = new ConfigurationsFile(soundConfigFilePath);
-        Map<String, String> configMap = configurationsFile.getConfigMap();
+    }
 
+    Map<String, SoundClip> loadSound() throws IOException {
+        Map<String, String> configMap = configurationsFile.getConfigMap();
         for (HashMap.Entry<String, String> entry : configMap.entrySet()) {
             soundEffectsMap.put(entry.getKey(), new SoundClip(entry.getValue()));
         }
