@@ -1,5 +1,6 @@
 package fr.univ_amu.graphic_engine;
 
+import fr.univ_amu.Main;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;

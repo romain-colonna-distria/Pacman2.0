@@ -106,7 +106,7 @@ public class Utils {
                 break;
             default:
                 System.err.println("conversion inconnu: " + character);
-                imagePath = "src/main/resources/empty_cross.png";
+                imagePath = "src/main/resources/black.png";
                 element = new Wall(gs, ps, imagePath);
         }
 

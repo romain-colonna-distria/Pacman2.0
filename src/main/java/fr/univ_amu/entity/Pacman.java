@@ -25,8 +25,6 @@ public class Pacman extends DynamicElement implements Playable {
         this.image = builder.image;
         this.score = builder.score;
         this.lifes = builder.lifes;
-
-
         this.speed = builder.speed;
         this.currentDirection = builder.currentDirection;
     }
