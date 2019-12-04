@@ -43,10 +43,12 @@ public class IA {
                     unsettled.remove(min);
                     List<Trail> neighbors = board.getNeighborTrails(min);
 
-                    Trail destNearest = getNeareast(neighbors, dest);
-                    if (!settled.contains(destNearest)) {
-                        destNearest.setDistance(min.getDistance() + 1);
-                        unsettled.add(destNearest);
+                    if (neighbors.size() > 0) {
+                        Trail destNearest = getNeareast(neighbors, dest);
+                        if (!settled.contains(destNearest)) {
+                            destNearest.setDistance(min.getDistance() + 1);
+                            unsettled.add(destNearest);
+                        }
                     }
 
                     settled.add(min);
