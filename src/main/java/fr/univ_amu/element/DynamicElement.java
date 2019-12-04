@@ -5,8 +5,9 @@ import fr.univ_amu.utils.Direction;
 public abstract class DynamicElement implements Element {
     public abstract double getSpeed();
     public abstract Direction getCurrentDirection();
+    public abstract void setCurrentDirection(Direction currentDirection);
 
-    public void movePhysicShape(){
+    public void movePhysicShape() {
         if (getCurrentDirection() != null) {
             switch (getCurrentDirection()) {
                 case UP:

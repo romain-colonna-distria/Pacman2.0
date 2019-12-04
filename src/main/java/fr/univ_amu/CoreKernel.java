@@ -3,6 +3,7 @@ package fr.univ_amu;
 import fr.univ_amu.audio_engine.SoundEngine;
 import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.graphic_engine.Window;
+import fr.univ_amu.ia_engine.IA;
 import fr.univ_amu.io_engine.InputsController;
 import fr.univ_amu.physic_engine.PhysicEngine;
 import fr.univ_amu.utils.Direction;
@@ -18,6 +19,7 @@ public class CoreKernel {
     private GraphicEngine graphicEngine;
     private SoundEngine soundEngine;
     private Direction desiredDirection = null;
+    private IA ia;
     private int fps;
 
     private List<InputsController> inputsControls = new ArrayList<>();
@@ -34,6 +36,12 @@ public class CoreKernel {
         graphicEngine.loadDynamicsElements();
         GraphicEngine.displayElements(Window.root);
         graphicEngine.updateInteractableElements(); //pour les replacer au premier plan
+        ia = new IA();
+
+        int i = 0;
+        for(; i < Window.root.getChildren().size(); ++ i){
+            if(GameBoard.getInstance().getElements().get(i) instanceof Pacman) break;
+        }
 
         GameLoop gameLoop = new GameLoop(this);
         SoundEngine.playSound("intro");
@@ -78,6 +86,7 @@ public class CoreKernel {
             }
         }
 
+        ia.run();
 
         //soundEngine.playSound();
     }

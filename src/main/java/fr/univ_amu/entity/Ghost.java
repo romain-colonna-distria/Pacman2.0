@@ -54,6 +54,11 @@ public class Ghost extends DynamicElement implements Playable, Interactable {
         return physicShape;
     }
 
+
+    public void setCurrentDirection(Direction currentDirection) {
+        this.currentDirection = currentDirection;
+    }
+  
     @Override
     public int getScore() {
         return -1;

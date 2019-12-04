@@ -86,9 +86,26 @@ public class Main {
         images.add(imagePinky);
 
         for(int i = 0; i < 4; ++i){
-            Ghost tmp = new Ghost.GhostBuilder(graphicShape2Ds.get(i), physicShape2Ds.get(i), images.get(i)).build();
+            Ghost tmp = new Ghost.GhostBuilder(graphicShape2Ds.get(i), physicShape2Ds.get(i), images.get(i))
+                    .setSpeed(1)
+                    .build();
             ghosts.add(tmp);
         }
+
+        ghosts.get(0).getPhysiqueShape().setxPosition(240d);
+        ghosts.get(0).getPhysiqueShape().setyPosition(160d);
+        ghosts.get(0).getGraphicShape().setxPosition(240d);
+        ghosts.get(0).getGraphicShape().setyPosition(160d);
+
+        ghosts.get(1).getPhysiqueShape().setxPosition(400d);
+        ghosts.get(1).getPhysiqueShape().setyPosition(460d);
+        ghosts.get(1).getGraphicShape().setxPosition(400d);
+        ghosts.get(1).getGraphicShape().setyPosition(460d);
+
+        ghosts.get(2).getPhysiqueShape().setxPosition(20d);
+        ghosts.get(2).getPhysiqueShape().setyPosition(440d);
+        ghosts.get(2).getGraphicShape().setxPosition(20d);
+        ghosts.get(2).getGraphicShape().setyPosition(440d);
 
         board.addElements(ghosts);
         /*------------------------------------------------------------*/

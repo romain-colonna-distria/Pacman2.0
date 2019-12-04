@@ -7,6 +7,7 @@ public class Trail extends StaticElement {
     private Shape2D graphicShape;
     private Shape2D physicShape;
     private String image;
+    private double distance;
 
     public Trail(Shape2D graphicShape, Shape2D physicShape, String image) {
         this.graphicShape = graphicShape;
@@ -29,8 +30,17 @@ public class Trail extends StaticElement {
         return physicShape;
     }
 
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+
     @Override
     public void setImage(String image) {
         this.image = image;
+
     }
 }
+
