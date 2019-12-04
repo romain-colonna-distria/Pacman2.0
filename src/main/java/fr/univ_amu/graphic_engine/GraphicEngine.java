@@ -41,10 +41,10 @@ public class GraphicEngine {
         }
     }
 
-    public static void displayElements(){
-        Window.getRoot().getChildren().clear();
+    public static void refreshElements(){
+        Window.clearWindow();
         for(ViewImage iv : elementImageViewHashMap.values()){
-            Window.getRoot().getChildren().add(iv);
+            Window.addViewImage(iv);
         }
     }
 
@@ -53,10 +53,10 @@ public class GraphicEngine {
 
         for (DynamicElement e : board.getDynamicElements()) {
             //supprime pour replacer les éléments dynamiques au premier plan
-            Window.getRoot().getChildren().remove(elementImageViewHashMap.get(e));
+            Window.removeViewImage(elementImageViewHashMap.get(e));
 
             setImageViewPositionFromElementPosition(elementImageViewHashMap.get(e), e);
-            Window.getRoot().getChildren().add(elementImageViewHashMap.get(e));
+            Window.addViewImage(elementImageViewHashMap.get(e));
         }
     }
 
@@ -65,16 +65,20 @@ public class GraphicEngine {
 
         for (Element e : board.getInteractableElements()) {
             //supprime pour replacer les éléments dynamiques au premier plan
-            Window.getRoot().getChildren().remove(elementImageViewHashMap.get(e));
+            Window.removeViewImage(elementImageViewHashMap.get(e));
 
             setImageViewPositionFromElementPosition(elementImageViewHashMap.get(e), e);
-            Window.getRoot().getChildren().add(elementImageViewHashMap.get(e));
+            Window.addViewImage(elementImageViewHashMap.get(e));
         }
     }
 
     private void setImageViewPositionFromElementPosition(ViewImage view, Element element){
         view.setX(element.getGraphicShape().getxPosition());
         view.setY(element.getGraphicShape().getyPosition());
+    }
+
+    public static void addElement(Element element){
+
     }
 
     public static void removeElement(Element element){

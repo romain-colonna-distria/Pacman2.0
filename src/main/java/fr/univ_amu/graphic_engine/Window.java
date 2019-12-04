@@ -1,10 +1,11 @@
 package fr.univ_amu.graphic_engine;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 
 
 public class Window extends Application {
@@ -31,11 +32,27 @@ public class Window extends Application {
         return stage;
     }
 
-    public static Group getRoot() {
+    private static Group getRoot() {
         return root;
     }
 
     public static Scene getScene() {
         return theScene;
+    }
+
+    public static ObservableList<Node> getViewsImage(){
+        return getRoot().getChildren();
+    }
+
+    public static void addViewImage(ViewImage view){
+        getRoot().getChildren().add(view);
+    }
+
+    public static void removeViewImage(ViewImage view){
+        getRoot().getChildren().remove(view);
+    }
+
+    public static void clearWindow(){
+        getRoot().getChildren().clear();
     }
 }

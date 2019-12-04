@@ -24,7 +24,6 @@ public class Utils {
         }
 
         String row = "";
-        int i = 0;
         while (true){
             try {
                 if ((row = reader.readLine()) == null) break;
@@ -41,12 +40,10 @@ public class Utils {
                 physicShapeTmp.setWidth(physiqcShape.getWidth());
                 physicShapeTmp.setHeigth(physiqcShape.getHeigth());
 
-                Element element = getElementFromChar(row.charAt(j), graphicShapeTmp, physicShapeTmp, j, i);
+                Element element = getElementFromChar(row.charAt(j), graphicShapeTmp, physicShapeTmp);
 
                 elements.add(element);
             }
-
-            ++i;
         }
 
         try {
@@ -58,7 +55,7 @@ public class Utils {
         return elements;
     }
 
-    private static Element getElementFromChar(char character, Shape2D gs, Shape2D ps, int positionI, int positionJ){
+    private static Element getElementFromChar(char character, Shape2D gs, Shape2D ps){
         Element element;
         String imagePath;
 

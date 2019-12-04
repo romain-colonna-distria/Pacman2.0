@@ -18,9 +18,5 @@ public abstract class InputsController<T extends Event> extends Controller imple
         return configurationsFile;
     }
 
-    public void changeConfigsFile(String configFileName) throws IOException {
-        configurationsFile = new ConfigurationsFile(configFileName);
-    }
-
     public abstract EventType getEventType();
 }

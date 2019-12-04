@@ -9,8 +9,8 @@ import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.entity.Ghost;
 import fr.univ_amu.entity.Trail;
 import fr.univ_amu.entity.Wall;
+import fr.univ_amu.graphic_engine.ViewImage;
 import fr.univ_amu.graphic_engine.Window;
-import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +33,7 @@ public class GameBoard {
         return null;
     }
 
-    public List<Ghost>  getGhosts() {
+    public List<Ghost> getGhosts() {
     	List <Ghost> tmp1 = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
             if (elements.get(i) instanceof Ghost) tmp1.add((Ghost) elements.get(i));
@@ -139,9 +139,9 @@ public class GameBoard {
         elements.addAll(newElements);
     }
 
-    public void retrieveElement(Element element, ImageView view){
+    public void retrieveElement(Element element, ViewImage view){
         elements.remove(element);
-        Window.getRoot().getChildren().remove(view);
+        Window.removeViewImage(view);
     }
 
 

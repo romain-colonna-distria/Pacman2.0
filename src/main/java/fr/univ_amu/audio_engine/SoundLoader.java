@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SoundLoader {
-    ConfigurationsFile configurationsFile;
-    Map<String, SoundClip> soundEffectsMap = new HashMap<>();
+    private ConfigurationsFile configurationsFile;
+    private Map<String, SoundClip> soundEffectsMap = new HashMap<>();
 
     public SoundLoader(String soundConfigFilePath) throws IOException {
         configurationsFile = new ConfigurationsFile(soundConfigFilePath);

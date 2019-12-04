@@ -1,14 +1,8 @@
 package fr.univ_amu.audio_engine;
 
-import javafx.scene.media.AudioClip;
-
-import java.io.File;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Responsible for loading sound media to be played using an id or key.
@@ -17,8 +11,7 @@ import java.util.concurrent.Executors;
  * <pre> * User: cdea
  */
 public class SoundEngine {
-    static Map<String, SoundClip> soundEffectsMap = new HashMap<>();
-    SoundLoader soundLoader;
+    private static Map<String, SoundClip> soundEffectsMap = new HashMap<>();
 
     public SoundEngine(SoundLoader soundLoader) throws IOException {
         soundEffectsMap = soundLoader.loadSound();

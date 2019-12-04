@@ -181,7 +181,7 @@ public class Main {
             KeyboardController keyControl = new KeyboardController();
             //MouseController mouseControl = new MouseController();
 
-            kernel.addInputsControl(keyControl.getEventType(), keyControl);
+            kernel.addInputsControl(keyControl);
             //kernel.addInputsControl(mouseControl.getEventType(), mouseControl);
         } catch (IOException e) {
             e.printStackTrace();

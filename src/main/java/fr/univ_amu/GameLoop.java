@@ -10,6 +10,10 @@ public class GameLoop extends AnimationTimer {
         this.kernel = kernel;
     }
 
+    public void startLoop(){
+        this.start();
+    }
+
     @Override
     public void handle(long now) {
         kernel.updateGame();

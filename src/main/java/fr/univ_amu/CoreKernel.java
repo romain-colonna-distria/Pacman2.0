@@ -9,7 +9,6 @@ import fr.univ_amu.io_engine.InputsController;
 import fr.univ_amu.physic_engine.PhysicEngine;
 import fr.univ_amu.utils.Direction;
 import javafx.application.Application;
-import javafx.event.EventType;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,23 +34,23 @@ public class CoreKernel {
     public void startGame() throws IOException {
         graphicEngine.loadStaticsElements();
         graphicEngine.loadDynamicsElements();
-        GraphicEngine.displayElements();
+        GraphicEngine.refreshElements();
         graphicEngine.updateInteractableElements(); //pour les replacer au premier plan
         ia = new IA();
 
         int i = 0;
-        for(; i < Window.getRoot().getChildren().size(); ++ i){
+        for(; i < Window.getViewsImage().size(); ++ i){
             if(GameBoard.getInstance().getElements().get(i) instanceof Pacman) break;
         }
 
         GameLoop gameLoop = new GameLoop(this);
         SoundEngine.playSound("intro");
-        gameLoop.start();
+        gameLoop.startLoop();
         Application.launch(Window.class);
     }
 
     public void updateGame() {
-        if(Window.getRoot().getChildren().size() < 1){
+        if(Window.getViewsImage().size() < 1){
             System.err.println("Empty window. No elements. Exit.");
             System.exit(1);
         }
@@ -93,13 +92,13 @@ public class CoreKernel {
     }
 
 
-    public void addInputsControl(EventType eventType, InputsController inputsControl){
+    public void addInputsControl(InputsController inputsControl){
         inputsControls.add(inputsControl);
-        Window.getScene().addEventHandler(eventType, inputsControl);
+        Window.getScene().addEventHandler(inputsControl.getEventType(), inputsControl);
     }
 
-    public void removeInputsControl(EventType eventType, InputsController inputsControl){
+    public void removeInputsControl(InputsController inputsControl){
         this.inputsControls.remove(inputsControl);
-        Window.getScene().removeEventHandler(eventType, inputsControl);
+        Window.getScene().removeEventHandler(inputsControl.getEventType(), inputsControl);
     }
 }

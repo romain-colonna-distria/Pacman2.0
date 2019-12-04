@@ -50,7 +50,7 @@ public class ConfigurationsFile {
         return configs.get(action);
     }
 
-    public Map getConfigMap(){
+    public Map<String, String> getConfigMap(){
         return configs;
     }
 }
