@@ -1,16 +1,22 @@
 package fr.univ_amu;
 
+import fr.univ_amu.audio_engine.SoundEngine;
+import fr.univ_amu.audio_engine.SoundLoader;
 import fr.univ_amu.element.Element;
-import fr.univ_amu.entity.Ghost;
-import fr.univ_amu.entity.Pacman;
+import fr.univ_amu.entity.*;
+import fr.univ_amu.graphic_engine.GraphicEngine;
+import fr.univ_amu.io_engine.KeyboardController;
+import fr.univ_amu.physic_engine.PhysicEngine;
 import fr.univ_amu.utils.Shape2D;
 import fr.univ_amu.utils.Utils;
 
-import javafx.application.Application;
-
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
+@SuppressWarnings("Duplicates")
 public class Main {
     private static final double ELEMENT_WIDTH = 20d;
     private static final double ELEMENT_HEIGTH = 20d;
@@ -21,96 +27,87 @@ public class Main {
     //private static double DELTA_Y_UP = 0d;
     //private static double DELTA_Y_DOWN = 0d;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException, IOException {
         GameBoard board = GameBoard.getInstance();
-
-        
-        
         /*-------------------------- Pacman --------------------------*/
+        String imagePacman = "src/main/resources/img_15_15_black_background/pacman/pacman_eat_1.png";
+
         Shape2D graphicShapePacman = new Shape2D();
         graphicShapePacman.setWidth(ELEMENT_WIDTH);
         graphicShapePacman.setHeigth(ELEMENT_HEIGTH);
-        
+        graphicShapePacman.setxPosition(260d);
+        graphicShapePacman.setyPosition(340d);
+
         Shape2D physicShapePacman = new Shape2D();
         physicShapePacman.setWidth(ELEMENT_WIDTH);
         physicShapePacman.setHeigth(ELEMENT_HEIGTH);
-                
+        physicShapePacman.setxPosition(260d);
+        physicShapePacman.setyPosition(340d);
+
+        Pacman pacman = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePacman)
+                .setSpeed(1)
+                .setScore(0)
+                .setLifes(3)
+                .build();
+
+        board.addElement(pacman);
         /*------------------------------------------------------------*/
-        
-        
+
+
         /*-------------------------- Ghosts --------------------------*/
-        
-        Shape2D graphicShapeBlinky = new Shape2D();
-        graphicShapeBlinky.setWidth(ELEMENT_WIDTH);
-        graphicShapeBlinky.setHeigth(ELEMENT_HEIGTH);
-
-        Shape2D physicShapeBlinky = new Shape2D();
-        physicShapeBlinky.setWidth(ELEMENT_WIDTH);
-        physicShapeBlinky.setHeigth(ELEMENT_HEIGTH);
-        
-        Shape2D graphicShapeClyde = new Shape2D();
-        graphicShapeClyde.setWidth(ELEMENT_WIDTH);
-        graphicShapeClyde.setHeigth(ELEMENT_HEIGTH);
-
-        Shape2D physicShapeClyde = new Shape2D();
-        physicShapeClyde.setWidth(ELEMENT_WIDTH);
-        physicShapeClyde.setHeigth(ELEMENT_HEIGTH);
-        
-        Shape2D graphicShapeInky = new Shape2D();
-        graphicShapeInky.setWidth(ELEMENT_WIDTH);
-        graphicShapeInky.setHeigth(ELEMENT_HEIGTH);
-
-        Shape2D physicShapeInky = new Shape2D();
-        physicShapeInky.setWidth(ELEMENT_WIDTH);
-        physicShapeInky.setHeigth(ELEMENT_HEIGTH);
-        
-        Shape2D graphicShapePinky = new Shape2D();
-        graphicShapePinky.setWidth(ELEMENT_WIDTH);
-        graphicShapePinky.setHeigth(ELEMENT_HEIGTH);
-
-        Shape2D physicShapePinky = new Shape2D();
-        physicShapePinky.setWidth(ELEMENT_WIDTH);
-        physicShapePinky.setHeigth(ELEMENT_HEIGTH);
-        
-        /*------------------------------------------------------------*/
-
-        String imagePacman = "src/main/resources/img_15_15_black_background/pacman/pacman_eat_1.png";  
-        String imageBlinky = "src/main/resources/img_15_15_black_background/ghosts/blinky/blinky_L.png";    
+        String imageBlinky = "src/main/resources/img_15_15_black_background/ghosts/blinky/blinky_L.png";
         String imageClyde = "src/main/resources/img_15_15_black_background/ghosts/clyde/clyde_L.png";
         String imageInky = "src/main/resources/img_15_15_black_background/ghosts/inky/inky_U.png";
         String imagePinky = "src/main/resources/img_15_15_black_background/ghosts/pinky/pinky_U.png";
 
-        Pacman.PacmanBuilder pacmanBuilder = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePacman);
-        pacmanBuilder.setSpeed(2);
-        Pacman pacman = pacmanBuilder.build();
-        
-        Ghost blinky = new Ghost.GhostBuilder(graphicShapeBlinky, physicShapeBlinky, imageBlinky).build();
-        Ghost clyde = new Ghost.GhostBuilder(graphicShapeClyde, physicShapeClyde, imageClyde).build();
-        Ghost inky = new Ghost.GhostBuilder(graphicShapeInky, physicShapeInky, imageInky).build();
-        Ghost pinky = new Ghost.GhostBuilder(graphicShapePinky, physicShapePinky, imagePinky).build();
+        List<Element> ghosts = new ArrayList<>();
+        List<Shape2D> graphicShape2Ds = new ArrayList<>(4);
+        List<Shape2D> physicShape2Ds = new ArrayList<>(4);
+        List<String> images = new ArrayList<>(4);
 
-        
-        
-        pacman.getGraphicShape().setxPosition(100d);
-        pacman.getGraphicShape().setyPosition(100d);
-        board.addElement(pacman);
-        
-        blinky.getGraphicShape().setxPosition(255d);
-        blinky.getGraphicShape().setyPosition(255d);
-        board.addElement(blinky);
-        
-        clyde.getGraphicShape().setxPosition(280d);
-        clyde.getGraphicShape().setyPosition(255d);
-        board.addElement(clyde);
-        
-        inky.getGraphicShape().setxPosition(280d);
-        inky.getGraphicShape().setyPosition(285d);
-        board.addElement(inky);
-        
-        pinky.getGraphicShape().setxPosition(255d);
-        pinky.getGraphicShape().setyPosition(285d);
-        board.addElement(pinky);
-        
+
+        for(int i = 0; i < 4; ++i){
+            graphicShape2Ds.add(new Shape2D());
+            graphicShape2Ds.get(i).setWidth(ELEMENT_WIDTH);
+            graphicShape2Ds.get(i).setHeigth(ELEMENT_HEIGTH);
+            graphicShape2Ds.get(i).setxPosition(280d);
+            graphicShape2Ds.get(i).setyPosition(280d);
+
+            physicShape2Ds.add(new Shape2D());
+            physicShape2Ds.get(i).setWidth(ELEMENT_WIDTH);
+            physicShape2Ds.get(i).setHeigth(ELEMENT_HEIGTH);
+            physicShape2Ds.get(i).setxPosition(280d);
+            physicShape2Ds.get(i).setyPosition(280d);
+        }
+
+        images.add(imageBlinky);
+        images.add(imageClyde);
+        images.add(imageInky);
+        images.add(imagePinky);
+
+        for(int i = 0; i < 4; ++i){
+            Ghost tmp = new Ghost.GhostBuilder(graphicShape2Ds.get(i), physicShape2Ds.get(i), images.get(i))
+                    .setSpeed(1)
+                    .build();
+            ghosts.add(tmp);
+        }
+
+        ghosts.get(0).getPhysiqueShape().setxPosition(240d);
+        ghosts.get(0).getPhysiqueShape().setyPosition(160d);
+        ghosts.get(0).getGraphicShape().setxPosition(240d);
+        ghosts.get(0).getGraphicShape().setyPosition(160d);
+
+        ghosts.get(1).getPhysiqueShape().setxPosition(400d);
+        ghosts.get(1).getPhysiqueShape().setyPosition(460d);
+        ghosts.get(1).getGraphicShape().setxPosition(400d);
+        ghosts.get(1).getGraphicShape().setyPosition(460d);
+
+        ghosts.get(2).getPhysiqueShape().setxPosition(20d);
+        ghosts.get(2).getPhysiqueShape().setyPosition(440d);
+        ghosts.get(2).getGraphicShape().setxPosition(20d);
+        ghosts.get(2).getGraphicShape().setyPosition(440d);
+
+        board.addElements(ghosts);
         /*------------------------------------------------------------*/
 
 
@@ -132,6 +129,8 @@ public class Main {
         for(Element e : elements){
             e.getGraphicShape().setxPosition(j * ELEMENT_WIDTH);
             e.getGraphicShape().setyPosition(k * ELEMENT_HEIGTH);
+            e.getPhysiqueShape().setxPosition(j * ELEMENT_WIDTH);
+            e.getPhysiqueShape().setyPosition(k * ELEMENT_HEIGTH);
 
             ++j;
             if(j == NB_COLUMN){
@@ -143,6 +142,52 @@ public class Main {
         board.addElements(elements);
         /*------------------------------------------------------------*/
 
-        Application.launch(Window.class);
+
+        /*--------------------- init teleporters ---------------------*/
+        List<Trail> trails = new ArrayList<>();
+        for(Element e : elements){
+            if(!(e instanceof Trail)) continue;
+            trails.add((Trail) e);
+        }
+
+        Random random = new Random();
+        int randdomPos = random.nextInt(trails.size() - 1);
+
+
+        for(int i = 0; i < elements.size(); ++i){
+            if(!(elements.get(i) instanceof Teleporter)) continue;
+            ((Teleporter) elements.get(i)).bind(trails.get(randdomPos));
+        }
+        /*------------------------------------------------------------*/
+
+
+        /*------------------------ init candy ------------------------*/
+        List<Element> candies = new ArrayList<>();
+        String imageCandy = "src/main/resources/img_15_15_black_background/candy/Pacgomme.png";
+        for (Trail t : trails){
+            candies.add(new Candy(t.getGraphicShape(), t.getPhysiqueShape(), imageCandy));
+        }
+        board.addElements(candies);
+        /*------------------------------------------------------------*/
+
+
+        /*----------------------- core kernel ------------------------*/
+        PhysicEngine physicEngine = new PhysicEngine();
+        GraphicEngine graphicEngine = new GraphicEngine();
+        SoundEngine soundEngine = new SoundEngine();
+
+        CoreKernel kernel = new CoreKernel();
+        try {
+            KeyboardController keyControl = new KeyboardController();
+            //MouseController mouseControl = new MouseController();
+
+            kernel.addInputsControl(keyControl);
+            //kernel.addInputsControl(mouseControl.getEventType(), mouseControl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        kernel.startGame();
+        /*------------------------------------------------------------*/
     }
 }

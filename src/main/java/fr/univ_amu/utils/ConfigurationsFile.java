@@ -4,12 +4,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.Key;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConfigurationsFile {
-    private static final int KEY = 0;
-    private static final int VALUE = 1;
+    private static final int KEY = 1; // l'action (ex: left, up, ...)
+    private static final int VALUE = 0; // la touche (ex: q, z, ...)
     private Map<String, String> configs = new HashMap<>();
 
     public ConfigurationsFile(String fileName) throws IOException {
@@ -20,20 +21,19 @@ public class ConfigurationsFile {
         while ((configLineTmp = fileReader.readLine()) != null){
             tokens = configLineTmp.split("=");
             verifyLineFormat(tokens);
-            configs.put(tokens[KEY], tokens[VALUE]);
+            configs.put(tokens[VALUE].toLowerCase(), tokens[KEY].toLowerCase());
         }
 
         fileReader.close();
     }
 
     private BufferedReader createFileReader(String fileName){
-        try(BufferedReader fileReader = new BufferedReader(new FileReader(fileName))){
+        try{
+            FileReader reader = new FileReader(fileName);
+            BufferedReader fileReader = new BufferedReader(reader);
             return fileReader;
         } catch (FileNotFoundException e) {
             System.err.println("Fichier de configuration introuvalble.");
-            System.exit(1);
-        } catch (IOException e) {
-            System.err.println("Erreur lors de la création du bufferedReader.");
             System.exit(1);
         }
         return null;
@@ -48,5 +48,9 @@ public class ConfigurationsFile {
 
     public String getAssociatedKey(String action){
         return configs.get(action);
+    }
+
+    public Map<String, String> getConfigMap(){
+        return configs;
     }
 }

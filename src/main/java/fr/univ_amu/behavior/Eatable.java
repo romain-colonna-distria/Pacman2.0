@@ -1,5 +1,7 @@
 package fr.univ_amu.behavior;
 
-public interface Eatable {
-    void giveEffect();
+import fr.univ_amu.element.Element;
+
+public interface Eatable extends Interactable{
+    void giveEffect(Element element);
 }
