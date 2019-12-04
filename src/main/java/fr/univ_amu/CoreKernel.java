@@ -36,8 +36,8 @@ public class CoreKernel {
         graphicEngine.updateInteractableElements(); //pour les replacer au premier plan
 
         GameLoop gameLoop = new GameLoop(this);
+        SoundEngine.playSound("intro");
         gameLoop.start();
-
         Application.launch(Window.class);
     }
 

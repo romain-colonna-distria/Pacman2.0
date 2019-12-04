@@ -36,9 +36,9 @@ public class Teleporter extends StaticElement implements Interactable {
     @Override
     public void interact(Element element) {
         element.getPhysiqueShape().setxPosition(260d);
-        element.getPhysiqueShape().setyPosition(340);
+        element.getPhysiqueShape().setyPosition(340d);
         element.getGraphicShape().setxPosition(260d);
-        element.getGraphicShape().setyPosition(340);
+        element.getGraphicShape().setyPosition(340d);
 
 //        element.getPhysiqueShape().setxPosition(GraphicEngine.elementImageViewHashMap.get(boundElement).getX());
 //        element.getPhysiqueShape().setyPosition(GraphicEngine.elementImageViewHashMap.get(boundElement).getY());

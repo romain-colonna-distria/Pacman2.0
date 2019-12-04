@@ -146,7 +146,7 @@ public class Main {
 
         /*------------------------ init candy ------------------------*/
         List<Element> candies = new ArrayList<>();
-        String imageCandy = "src/main/resources/empty_cross.png";
+        String imageCandy = "src/main/resources/img_15_15_black_background/candy/Pacgomme.png";
         for (Trail t : trails){
             candies.add(new Candy(t.getGraphicShape(), t.getPhysiqueShape(), imageCandy));
         }
