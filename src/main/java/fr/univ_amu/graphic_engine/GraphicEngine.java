@@ -1,99 +1,179 @@
 package fr.univ_amu.graphic_engine;
 
 
-import fr.univ_amu.GameBoard;
+import fr.univ_amu.behavior.Interactable;
+import fr.univ_amu.behavior.Playable;
 import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
 
+import javafx.application.Application;
 import javafx.scene.image.Image;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class GraphicEngine {
-    public static HashMap<Element, ViewImage> elementImageViewHashMap = new HashMap<>();
+    public static Map<Element, ViewImage> elementViewMap = new HashMap<>();
 
-    public void loadStaticsElements() throws IOException {
-        GameBoard board = GameBoard.getInstance();
-        if(elementImageViewHashMap == null) elementImageViewHashMap = new HashMap<>();
+    public static void launchWindow(){
+        Application.launch(Window.class);
+    }
 
-        for (StaticElement e : board.getStaticElements()) {
-            ViewImage view = getElementImageView(e);
-            setImageViewPositionFromElementPosition(view, e);
+    public static void addElement(Element element){
+        if(elementViewMap == null) elementViewMap = new HashMap<>();
+        elementViewMap.put(element, null);
+    }
 
-            elementImageViewHashMap.put(e, view);
+    public static void addElements(List<Element> elements, boolean clear){
+        if(elementViewMap == null) elementViewMap = new HashMap<>();
+        if(clear) elementViewMap = new HashMap<>();
+        for(Element e : elements)
+            addElement(e);
+    }
+
+    public static void removeElement(Element element){
+        Window.removeViewImage(elementViewMap.get(element));
+        elementViewMap.remove(element);
+    }
+
+    public static void removeElements(List<Element> elements){
+        for(Element e : elements) {
+            Window.removeViewImage(elementViewMap.get(e));
+            elementViewMap.remove(e);
         }
     }
 
-    public void loadDynamicsElements() throws IOException {
-        GameBoard board = GameBoard.getInstance();
-        if(elementImageViewHashMap == null) elementImageViewHashMap = new HashMap<>();
+    public static void createStaticsElementsView() throws IOException {
+        if(elementViewMap == null) {
+            System.err.println("No elements to load.");
+            return;
+        }
 
-        for (DynamicElement e : board.getDynamicElements()) {
-            ViewImage view = getElementImageView(e);
+        for (StaticElement e : getStaticElements()) {
+            ViewImage view = createElementImageView(e);
             setImageViewPositionFromElementPosition(view, e);
 
-            elementImageViewHashMap.put(e, view);
+            elementViewMap.put(e, view);
         }
     }
 
-    public static void refreshElements(){
+    public static void createDynamicsElementsView() throws IOException {
+        if(elementViewMap == null) {
+            System.err.println("No elements to load.");
+            return;
+        }
+
+        for (DynamicElement e : getDynamicElements()) {
+            ViewImage view = createElementImageView(e);
+            setImageViewPositionFromElementPosition(view, e);
+
+            elementViewMap.put(e, view);
+        }
+    }
+
+
+    public static void refreshWindow(){
         Window.clearWindow();
-        for(ViewImage iv : elementImageViewHashMap.values()){
+        for(ViewImage iv : elementViewMap.values()){
+            //System.out.println(iv);
             Window.addViewImage(iv);
         }
     }
 
-    public void updateDynamicsElements(){
-        GameBoard board = GameBoard.getInstance();
 
-        for (DynamicElement e : board.getDynamicElements()) {
-            //supprime pour replacer les éléments dynamiques au premier plan
-            Window.removeViewImage(elementImageViewHashMap.get(e));
-
-            setImageViewPositionFromElementPosition(elementImageViewHashMap.get(e), e);
-            Window.addViewImage(elementImageViewHashMap.get(e));
+    public static void updateDynamicsElements(){
+        for (DynamicElement e : getDynamicElements()) {
+            updateElement(e);
         }
     }
 
-    public void updateInteractableElements(){
-        GameBoard board = GameBoard.getInstance();
-
-        for (Element e : board.getInteractableElements()) {
+    public static void updateInteractableElements(){
+        for (Element e : getInteractableElements()) {
             //supprime pour replacer les éléments dynamiques au premier plan
-            Window.removeViewImage(elementImageViewHashMap.get(e));
+            Window.removeViewImage(elementViewMap.get(e));
 
-            setImageViewPositionFromElementPosition(elementImageViewHashMap.get(e), e);
-            Window.addViewImage(elementImageViewHashMap.get(e));
+            setImageViewPositionFromElementPosition(elementViewMap.get(e), e);
+            Window.addViewImage(elementViewMap.get(e));
         }
     }
 
-    private void setImageViewPositionFromElementPosition(ViewImage view, Element element){
+    public static void updateElement(Element element){
+        //supprime pour replacer les éléments dynamiques au premier plan
+        Window.removeViewImage(elementViewMap.get(element));
+
+        setImageViewPositionFromElementPosition(elementViewMap.get(element), element);
+        Window.addViewImage(elementViewMap.get(element));
+    }
+
+
+    public static List<Element> getElements(){
+        return new ArrayList<>(elementViewMap.keySet());
+    }
+
+    public static List<StaticElement> getStaticElements(){
+        List<Element> keys = new ArrayList<>(elementViewMap.keySet());
+        List<StaticElement> result = new ArrayList<>();
+
+        for(int i = 0; i < keys.size(); ++i) {
+            if (keys.get(i) instanceof StaticElement) result.add((StaticElement) keys.get(i));
+        }
+
+        return result;
+    }
+
+    public static List<DynamicElement> getDynamicElements() {
+        List<Element> keys = new ArrayList<>(elementViewMap.keySet());
+        List<DynamicElement> result = new ArrayList<>();
+
+        for(int i = 0; i < keys.size(); ++i) {
+            if (keys.get(i) instanceof DynamicElement) result.add((DynamicElement) keys.get(i));
+        }
+
+        return result;
+    }
+
+    public static List<Element> getInteractableElements(){
+        List<Element> keys = new ArrayList<>(elementViewMap.keySet());
+        List<Element> result = new ArrayList<>();
+
+        for(int i = 0; i < keys.size(); ++i) {
+            if (keys.get(i) instanceof Interactable) result.add(keys.get(i));
+        }
+
+        return result;
+    }
+
+    public static List<Element> getPlaybleElements() {
+        List<Element> keys = new ArrayList<>(elementViewMap.keySet());
+        List<Element> result = new ArrayList<>();
+
+        for(int i = 0; i < keys.size(); ++i) {
+            if (keys.get(i) instanceof Playable) result.add(keys.get(i));
+        }
+
+        return result;
+    }
+
+
+
+    /*-------------------------------- PRIVATE --------------------------------*/
+    private static void setImageViewPositionFromElementPosition(ViewImage view, Element element){
         view.setX(element.getGraphicShape().getxPosition());
         view.setY(element.getGraphicShape().getyPosition());
     }
 
-    public static void addElement(Element element){
-
-    }
-
-    public static void removeElement(Element element){
-        GameBoard.getInstance().retrieveElement(element, elementImageViewHashMap.get(element));
-        elementImageViewHashMap.remove(element);
-        //System.out.println("Suprimé");
-    }
-
-    private ViewImage getElementImageView(Element element) throws IOException {
-
+    private static ViewImage createElementImageView(Element element) throws IOException {
         FileInputStream imageElementInputStream = new FileInputStream(element.getImage());
         Image elementImage = new Image(imageElementInputStream, element.getGraphicShape().getWidth(),
                 element.getGraphicShape().getHeigth(), false, false);
         imageElementInputStream.close();
-
 
         return new ViewImage(elementImage);
     }

@@ -1,6 +1,7 @@
 package fr.univ_amu;
 
 import fr.univ_amu.audio_engine.SoundEngine;
+import fr.univ_amu.audio_engine.SoundLoader;
 import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.graphic_engine.Window;
@@ -8,16 +9,13 @@ import fr.univ_amu.ia_engine.IA;
 import fr.univ_amu.io_engine.InputsController;
 import fr.univ_amu.physic_engine.PhysicEngine;
 import fr.univ_amu.utils.Direction;
-import javafx.application.Application;
+
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CoreKernel {
-    private PhysicEngine physicEngine;
-    private GraphicEngine graphicEngine;
-    private SoundEngine soundEngine;
     private Direction desiredDirection = null;
     private IA ia;
     private int fps;
@@ -25,28 +23,23 @@ public class CoreKernel {
     private List<InputsController> inputsControls = new ArrayList<>();
 
 
-    public CoreKernel(PhysicEngine physicEngine, GraphicEngine graphicEngine, SoundEngine soundEngine) {
-        this.physicEngine = physicEngine;
-        this.graphicEngine = graphicEngine;
-        this.soundEngine = soundEngine;
-    }
-
     public void startGame() throws IOException {
-        graphicEngine.loadStaticsElements();
-        graphicEngine.loadDynamicsElements();
-        GraphicEngine.refreshElements();
-        graphicEngine.updateInteractableElements(); //pour les replacer au premier plan
+        GraphicEngine.createStaticsElementsView();
+        GraphicEngine.createDynamicsElementsView();
+        GraphicEngine.refreshWindow();
+        GraphicEngine.updateInteractableElements(); //pour les replacer au premier plan
+
         ia = new IA();
 
-        int i = 0;
-        for(; i < Window.getViewsImage().size(); ++ i){
-            if(GameBoard.getInstance().getElements().get(i) instanceof Pacman) break;
-        }
+        SoundEngine.initSounds(new SoundLoader("src/main/resources/sound_config.conf"));
+
 
         GameLoop gameLoop = new GameLoop(this);
+
         SoundEngine.playSound("intro");
         gameLoop.startLoop();
-        Application.launch(Window.class);
+
+        GraphicEngine.launchWindow();
     }
 
     public void updateGame() {
@@ -77,18 +70,16 @@ public class CoreKernel {
             GameBoard.getInstance().getPacman().setCurrentDirection(desiredDirection);
         }
 
-        if(!physicEngine.updatePhysicElements()) {
-            graphicEngine.updateDynamicsElements();
+        if(!PhysicEngine.updatePhysicElements()) {
+            GraphicEngine.updateDynamicsElements();
         } else {
             GameBoard.getInstance().getPacman().setCurrentDirection(currentDirection);
-            if(!physicEngine.updatePhysicElements()) {
-                graphicEngine.updateDynamicsElements();
+            if(!PhysicEngine.updatePhysicElements()) {
+                GraphicEngine.updateDynamicsElements();
             }
         }
 
         ia.run();
-
-        //soundEngine.playSound();
     }
 
 

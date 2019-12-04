@@ -17,7 +17,7 @@ public class SoundLoader {
         configurationsFile = new ConfigurationsFile(soundConfigFilePath);
     }
 
-    Map<String, SoundClip> loadSound() throws IOException {
+    public Map<String, SoundClip> loadSound() throws IOException {
         Map<String, String> configMap = configurationsFile.getConfigMap();
         for (HashMap.Entry<String, String> entry : configMap.entrySet()) {
             soundEffectsMap.put(entry.getKey(), new SoundClip(entry.getValue()));

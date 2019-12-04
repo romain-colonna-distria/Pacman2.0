@@ -9,6 +9,7 @@ import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.entity.Ghost;
 import fr.univ_amu.entity.Trail;
 import fr.univ_amu.entity.Wall;
+import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.graphic_engine.ViewImage;
 import fr.univ_amu.graphic_engine.Window;
 
@@ -42,27 +43,6 @@ public class GameBoard {
         return tmp1;
     }
 
-
-    public List<StaticElement> getStaticElements(){
-        List<StaticElement> tmp = new ArrayList<>();
-        for(int i = 0; i < elements.size(); ++i) {
-            if (elements.get(i) instanceof StaticElement) tmp.add((StaticElement) elements.get(i));
-        }
-
-        return tmp;
-    }
-
-
-    public List<DynamicElement> getDynamicElements() {
-        List<DynamicElement> tmp = new ArrayList<>();
-        for(int i = 0; i < elements.size(); ++i) {
-            if (elements.get(i) instanceof DynamicElement) tmp.add((DynamicElement) elements.get(i));
-        }
-
-        return tmp;
-    }
-
-
     public List<Wall> getWalls(){
         List<Wall> tmp = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
@@ -77,14 +57,6 @@ public class GameBoard {
         List<Trail> tmp = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
             if (elements.get(i) instanceof Trail) tmp.add((Trail) elements.get(i));
-        }
-        return tmp;
-    }
-  
-    public List<Element> getEatables(){
-        List<Element> tmp = new ArrayList<>();
-        for(int i = 0; i < elements.size(); ++i) {
-            if (elements.get(i) instanceof Eatable) tmp.add(elements.get(i));
         }
         return tmp;
     }
@@ -112,13 +84,7 @@ public class GameBoard {
         }
         return neighbors;
     }
-    public List<Element> getInteractableElements(){
-        List<Element> tmp = new ArrayList<>();
-        for(int i = 0; i < elements.size(); ++i) {
-            if (elements.get(i) instanceof Interactable) tmp.add(elements.get(i));
-        }
-        return tmp;
-    }
+
 
     public List<Element> getElements(){
         return elements;
@@ -133,15 +99,17 @@ public class GameBoard {
 
     public void addElement(Element newElement){
         elements.add(newElement);
+        GraphicEngine.addElement(newElement);
     }
     
     public void addElements(Collection<Element> newElements){
-        elements.addAll(newElements);
+        for(Element e : newElements)
+            addElement(e);
     }
 
-    public void retrieveElement(Element element, ViewImage view){
+    public void retrieveElement(Element element){
         elements.remove(element);
-        Window.removeViewImage(view);
+        GraphicEngine.removeElement(element);
     }
 
 

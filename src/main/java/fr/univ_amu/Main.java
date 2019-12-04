@@ -174,9 +174,9 @@ public class Main {
         /*----------------------- core kernel ------------------------*/
         PhysicEngine physicEngine = new PhysicEngine();
         GraphicEngine graphicEngine = new GraphicEngine();
-        SoundEngine soundEngine = new SoundEngine(new SoundLoader("src/main/resources/sound_config.conf"));
+        SoundEngine soundEngine = new SoundEngine();
 
-        CoreKernel kernel = new CoreKernel(physicEngine, graphicEngine, soundEngine);
+        CoreKernel kernel = new CoreKernel();
         try {
             KeyboardController keyControl = new KeyboardController();
             //MouseController mouseControl = new MouseController();

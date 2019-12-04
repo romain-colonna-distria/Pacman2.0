@@ -13,7 +13,7 @@ import java.util.Map;
 public class SoundEngine {
     private static Map<String, SoundClip> soundEffectsMap = new HashMap<>();
 
-    public SoundEngine(SoundLoader soundLoader) throws IOException {
+    public static void initSounds(SoundLoader soundLoader) throws IOException {
         soundEffectsMap = soundLoader.loadSound();
     }
     /**
@@ -22,6 +22,10 @@ public class SoundEngine {
      * @param id identifier for a sound to be played.
      */
     public static void playSound(final String id) {
+        if(soundEffectsMap == null){
+            System.err.println("Aucun son chargés.");
+            return;
+        }
         soundEffectsMap.get(id).play();
     }
 
