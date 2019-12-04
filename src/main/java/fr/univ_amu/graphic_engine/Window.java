@@ -1,6 +1,5 @@
 package fr.univ_amu.graphic_engine;
 
-import fr.univ_amu.Main;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -9,8 +8,8 @@ import javafx.stage.Stage;
 
 
 public class Window extends Application {
-    public static Group root = new Group();
-    public static Scene theScene = new Scene(root);
+    private static Group root = new Group();
+    private static Scene theScene = new Scene(root);
     private boolean isFullScrean = false;
     private static Stage stage;
 
@@ -30,5 +29,13 @@ public class Window extends Application {
 
     public static Stage getStage() {
         return stage;
+    }
+
+    public static Group getRoot() {
+        return root;
+    }
+
+    public static Scene getScene() {
+        return theScene;
     }
 }

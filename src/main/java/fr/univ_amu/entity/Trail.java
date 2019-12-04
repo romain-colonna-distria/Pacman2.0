@@ -36,6 +36,7 @@ public class Trail extends StaticElement {
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
 
     @Override
     public void setImage(String image) {

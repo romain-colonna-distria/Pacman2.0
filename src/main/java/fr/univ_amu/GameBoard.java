@@ -78,6 +78,7 @@ public class GameBoard {
         for(int i = 0; i < elements.size(); ++i) {
             if (elements.get(i) instanceof Trail) tmp.add((Trail) elements.get(i));
         }
+        return tmp;
     }
   
     public List<Element> getEatables(){
@@ -140,7 +141,7 @@ public class GameBoard {
 
     public void retrieveElement(Element element, ImageView view){
         elements.remove(element);
-        Window.root.getChildren().remove(view);
+        Window.getRoot().getChildren().remove(view);
     }
 
 

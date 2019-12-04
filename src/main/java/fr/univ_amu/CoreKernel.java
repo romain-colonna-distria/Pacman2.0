@@ -1,6 +1,7 @@
 package fr.univ_amu;
 
 import fr.univ_amu.audio_engine.SoundEngine;
+import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.graphic_engine.Window;
 import fr.univ_amu.ia_engine.IA;
@@ -34,12 +35,12 @@ public class CoreKernel {
     public void startGame() throws IOException {
         graphicEngine.loadStaticsElements();
         graphicEngine.loadDynamicsElements();
-        GraphicEngine.displayElements(Window.root);
+        GraphicEngine.displayElements();
         graphicEngine.updateInteractableElements(); //pour les replacer au premier plan
         ia = new IA();
 
         int i = 0;
-        for(; i < Window.root.getChildren().size(); ++ i){
+        for(; i < Window.getRoot().getChildren().size(); ++ i){
             if(GameBoard.getInstance().getElements().get(i) instanceof Pacman) break;
         }
 
@@ -50,7 +51,7 @@ public class CoreKernel {
     }
 
     public void updateGame() {
-        if(Window.root.getChildren().size() < 1){
+        if(Window.getRoot().getChildren().size() < 1){
             System.err.println("Empty window. No elements. Exit.");
             System.exit(1);
         }
@@ -94,11 +95,11 @@ public class CoreKernel {
 
     public void addInputsControl(EventType eventType, InputsController inputsControl){
         inputsControls.add(inputsControl);
-        Window.theScene.addEventHandler(eventType, inputsControl);
+        Window.getScene().addEventHandler(eventType, inputsControl);
     }
 
     public void removeInputsControl(EventType eventType, InputsController inputsControl){
         this.inputsControls.remove(inputsControl);
-        Window.theScene.removeEventHandler(eventType, inputsControl);
+        Window.getScene().removeEventHandler(eventType, inputsControl);
     }
 }
