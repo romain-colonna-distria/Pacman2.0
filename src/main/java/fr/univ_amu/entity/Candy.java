@@ -1,13 +1,15 @@
 package fr.univ_amu.entity;
 
-import fr.univ_amu.behavior.Eatable;
+import fr.univ_amu.GameBoard;
+import fr.univ_amu.behavior.Interactable;
 import fr.univ_amu.behavior.Playable;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.utils.Shape2D;
 
-public class Candy extends StaticElement implements Eatable {
+public class Candy extends StaticElement implements Interactable {
+    private static int nbCandy = 0;
     private Shape2D graphicShape;
     private Shape2D physicShape;
     private String image;
@@ -17,6 +19,7 @@ public class Candy extends StaticElement implements Eatable {
         this.graphicShape = graphicShape;
         this.physicShape = physicShape;
         this.image = image;
+        ++nbCandy;
     }
 
     @Override
@@ -40,15 +43,13 @@ public class Candy extends StaticElement implements Eatable {
     }
 
     @Override
-    public void giveEffect(Element element) {
+    public void interact(Element element) {
         if(element instanceof Playable){
             ((Playable) element).addPoints(this.points);
-            GraphicEngine.removeElement(this);
+            GameBoard.getInstance().retrieveElement(this);
+            --nbCandy;
+            //GraphicEngine.updateDynamicsElements();
+            //if(nbCandy < 290) CoreKernel.restartGame();
         }
-    }
-
-    @Override
-    public void interact(Element element) {
-        giveEffect(element);
     }
 }

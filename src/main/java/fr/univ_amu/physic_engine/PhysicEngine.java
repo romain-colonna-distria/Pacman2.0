@@ -1,55 +1,83 @@
 package fr.univ_amu.physic_engine;
 
 
-import fr.univ_amu.GameBoard;
+import fr.univ_amu.behavior.Impassable;
 import fr.univ_amu.behavior.Interactable;
-import fr.univ_amu.behavior.Playable;
 import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.Element;
-import fr.univ_amu.entity.Pacman;
-import fr.univ_amu.entity.Wall;
 
+
+import fr.univ_amu.graphic_engine.GraphicEngine;
+
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 public class PhysicEngine {
 
     /**
-     * Met a jours la positions des éléments dynamiques.
+     * Renvoi les collisions avec les éléments possédant une intéraction
      * @return Liste des élément
      */
-    public boolean updatePhysicElements(){
-        GameBoard board = GameBoard.getInstance();
-        Pacman pacman = board.getPacman();
+    public static HashMap<DynamicElement, Set<Element>> getNextCollisions() {
+        HashMap<DynamicElement, Set<Element>> collisions = new HashMap<>();
 
-        pacman.movePhysicShape();
+        for(DynamicElement de : GraphicEngine.getDynamicElements()){
+            Set<Element> nextCollisions = getNextElementCollisions(de);
 
-        boolean isCollision = false;
-        for(DynamicElement de : board.getDynamicElements()) {
-            for(Wall w : board.getWalls()) {
-                if (Collision.checkCollision(de.getPhysiqueShape(), w.getPhysiqueShape())) {
-                    isCollision = true;
-                    System.out.println("collision");
-                    break;
+            if(nextCollisions.size() < 1) continue;
+            collisions.put(de, nextCollisions);
+        }
+
+        /*
+        for (DynamicElement de : GraphicEngine.getDynamicElements()){
+            de.movePhysicShape();
+        }
+
+        for(DynamicElement de : GraphicEngine.getDynamicElements()) {
+            Set<Element> tmp = new HashSet<>();
+            for(Element e : GraphicEngine.getElements()) {
+                if(de == e) continue;
+                if (Collision.checkCollision(de.getPhysiqueShape(), e.getPhysiqueShape())) {
+                    if(e instanceof Impassable){
+                        de.undoMovePhysicShape();
+                        tmp.add(e);
+                    } else if(e instanceof Interactable) {
+                        tmp.add(e);
+                    }
                 }
+            }
+
+            if(tmp.size() < 1) continue;
+            collisions.put(de, tmp);
+        }
+*/
+
+       return collisions;
+    }
+
+    public static Set<Element> getNextElementCollisions(DynamicElement dynamicElement){
+        dynamicElement.movePhysicShape();
+
+        Set<Element> elementsInCollisions = new HashSet<>();
+        for(Element element : GraphicEngine.getElements()) {
+            if(dynamicElement == element) continue;
+            if (Collision.checkCollision(dynamicElement.getPhysiqueShape(), element.getPhysiqueShape())) {
+                if(element instanceof Impassable || element instanceof Interactable) {
+                    elementsInCollisions.add(element);
+                }
+                /*if(element instanceof Interactable){
+                    elementsInCollisions.add(element);
+                } else if(!(element instanceof Impassable)) {
+                    elementsInCollisions.add(element);
+                }*/
             }
         }
 
-        if(!isCollision) {
-            for (DynamicElement de : board.getDynamicElements()) {
-                for (Element e : board.getInteractableElements()) {
-                    if (!(de instanceof Playable)) continue;
-                    if (!Collision.checkCollision(de.getPhysiqueShape(), e.getPhysiqueShape())) continue;
-                    ((Interactable) e).interact(de);
-                }
-            }
-        }
-
-        if(!isCollision){
-            pacman.moveGraphicShape();
-        } else {
-            pacman.undoMovePhysicShape();
-        }
-
-        return isCollision;
+        dynamicElement.undoMovePhysicShape();
+        return elementsInCollisions;
     }
 }

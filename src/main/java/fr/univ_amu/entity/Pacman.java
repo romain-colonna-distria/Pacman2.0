@@ -1,5 +1,8 @@
 package fr.univ_amu.entity;
 
+import fr.univ_amu.CoreKernel;
+import fr.univ_amu.element.Element;
+import fr.univ_amu.io_engine.InputsController;
 import fr.univ_amu.utils.Direction;
 import fr.univ_amu.behavior.Playable;
 import fr.univ_amu.element.DynamicElement;
@@ -16,6 +19,10 @@ public class Pacman extends DynamicElement implements Playable {
 
     private double speed;
     private Direction currentDirection;
+    private Direction saveDirection;
+    private Direction desiredDirection;
+
+    private InputsController inputsController;
 
 
 
@@ -57,9 +64,6 @@ public class Pacman extends DynamicElement implements Playable {
         return physicShape;
     }
 
-    public void setCurrentDirection(Direction currentDirection) {
-        this.currentDirection = currentDirection;
-    }
 
     @Override
     public int getScore() {
@@ -78,6 +82,63 @@ public class Pacman extends DynamicElement implements Playable {
     }
 
     @Override
+    public InputsController getInputControl() {
+        return inputsController;
+    }
+
+    @Override
+    public void setInputControl(InputsController inputsController) {
+        if(this.inputsController != null) return;
+        this.inputsController = inputsController;
+    }
+
+    @Override
+    public void updateDirectionFromInput() {
+        if(this.inputsController == null) return;
+
+        //setCurrentDirection(inputsController.getDirection());
+
+
+        Direction input = inputsController.getDirection();
+        if(this.currentDirection == input) return;
+
+        this.saveDirection = this.currentDirection;
+        if(input != null)
+            this.desiredDirection = input;
+
+        if(this.desiredDirection == this.currentDirection)
+            this.desiredDirection = null;
+
+        this.setCurrentDirection(this.desiredDirection == null ? this.currentDirection : this.desiredDirection);
+        //System.out.println(this.saveDirection + " : " + this.currentDirection + " : " + this.desiredDirection);
+
+        /*
+        Direction input = inputsController.getDirection();
+
+        if(input != null) {
+            this.desiredDirection = input;
+        }
+
+        this.saveDirection = this.currentDirection;
+        setCurrentDirection(desiredDirection);
+
+        System.out.println(this.saveDirection + " : " + this.currentDirection + " : " + this.desiredDirection);
+        */
+    }
+
+    @Override
+    public void setCurrentDirection(Direction direction) {
+        this.currentDirection = direction;
+    }
+
+    @Override
+    public void undoUpdateDirection() {
+        this.currentDirection = this.saveDirection;
+        this.saveDirection = null;
+    }
+
+
+    @Override
     public void setImage(String image) {
         this.image = image;
     }
@@ -86,9 +147,26 @@ public class Pacman extends DynamicElement implements Playable {
         return lifes;
     }
 
-    public void retrievLife(){
+    public void retrievLife(int lifes){
         if(this.lifes == 0) return;
-        --lifes;
+        this.lifes -= lifes;
+    }
+
+    @Override
+    public String toString() {
+        return "Pacman{" +
+                "score=" + score +
+                ", lifes=" + lifes +
+                ", speed=" + speed +
+                ", currentDirection=" + currentDirection +
+                ", saveDirection=" + saveDirection +
+                ", desiredDirection=" + desiredDirection +
+                '}';
+    }
+
+    @Override
+    public void interact(Element element) {
+        System.out.println("Coucou: " + element);
     }
 
     public static class PacmanBuilder {

@@ -19,12 +19,11 @@ public class Utils {
         try {
             reader = new BufferedReader(new FileReader(config));
         } catch (FileNotFoundException e) {
-            System.err.println("Fichier de configuration introuvable.");
+            System.err.println("Fichier de configuration de la map introuvable.");
             System.exit(1);
         }
 
         String row = "";
-        int i = 0;
         while (true){
             try {
                 if ((row = reader.readLine()) == null) break;
@@ -32,7 +31,7 @@ public class Utils {
                 e.printStackTrace();
             }
 
-            for(int j = 0; j < row.length(); ++j) {
+            for(int i = 0; i < row.length(); ++i) {
                 Shape2D graphicShapeTmp = new Shape2D();
                 graphicShapeTmp.setWidth(graphicShape.getWidth());
                 graphicShapeTmp.setHeigth(graphicShape.getHeigth());
@@ -41,12 +40,10 @@ public class Utils {
                 physicShapeTmp.setWidth(physiqcShape.getWidth());
                 physicShapeTmp.setHeigth(physiqcShape.getHeigth());
 
-                Element element = getElementFromChar(row.charAt(j), graphicShapeTmp, physicShapeTmp, j, i);
+                Element element = getElementFromChar(row.charAt(i), graphicShapeTmp, physicShapeTmp);
 
                 elements.add(element);
             }
-
-            ++i;
         }
 
         try {
@@ -58,7 +55,7 @@ public class Utils {
         return elements;
     }
 
-    private static Element getElementFromChar(char character, Shape2D gs, Shape2D ps, int positionI, int positionJ){
+    private static Element getElementFromChar(char character, Shape2D gs, Shape2D ps){
         Element element;
         String imagePath;
 

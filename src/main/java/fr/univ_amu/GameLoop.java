@@ -2,16 +2,22 @@ package fr.univ_amu;
 
 import javafx.animation.AnimationTimer;
 
+import java.io.IOException;
+
 
 public class GameLoop extends AnimationTimer {
-    private CoreKernel kernel;
 
-    public GameLoop(CoreKernel kernel) {
-        this.kernel = kernel;
+    public void startLoop(){
+        this.start();
     }
 
     @Override
     public void handle(long now) {
-        kernel.updateGame();
+        try {
+            CoreKernel.updateGame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 }

@@ -1,9 +1,10 @@
 package fr.univ_amu.entity;
 
+import fr.univ_amu.behavior.Impassable;
 import fr.univ_amu.element.StaticElement;
 import fr.univ_amu.utils.Shape2D;
 
-public class Wall extends StaticElement {
+public class Wall extends StaticElement implements Impassable {
     private Shape2D graphicShape;
     private Shape2D physicShape;
     private String image;
@@ -34,5 +35,15 @@ public class Wall extends StaticElement {
     @Override
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "Wall{" +
+                "graphicX=" + graphicShape.getxPosition() +
+                "graphicY=" + graphicShape.getyPosition() +
+                "physicX=" + physicShape.getxPosition() +
+                "physicY=" + physicShape.getyPosition() +
+                '}';
     }
 }

@@ -1,11 +1,11 @@
 package fr.univ_amu;
 
-import fr.univ_amu.audio_engine.SoundEngine;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.entity.*;
-import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.io_engine.KeyboardController;
-import fr.univ_amu.physic_engine.PhysicEngine;
+import fr.univ_amu.rule.CollisionRule;
+import fr.univ_amu.rule.GameRules;
+import fr.univ_amu.rule.PacmanRule;
 import fr.univ_amu.utils.Shape2D;
 import fr.univ_amu.utils.Utils;
 
@@ -49,6 +49,13 @@ public class Main {
                 .setScore(0)
                 .setLifes(3)
                 .build();
+
+        try {
+            KeyboardController keyControl = new KeyboardController();
+            pacman.setInputControl(keyControl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         board.addElement(pacman);
         /*------------------------------------------------------------*/
@@ -154,23 +161,20 @@ public class Main {
         /*------------------------------------------------------------*/
 
 
+        /*------------------------ game rules ------------------------*/
+        GameRules rules = new GameRules();
+        CollisionRule collisionRule = new CollisionRule();
+        PacmanRule pacmanRule = new PacmanRule();
+
+        rules.add(collisionRule);
+        rules.add(pacmanRule);
+
+        /*------------------------------------------------------------*/
+
+
+
         /*----------------------- core kernel ------------------------*/
-        PhysicEngine physicEngine = new PhysicEngine();
-        GraphicEngine graphicEngine = new GraphicEngine();
-        SoundEngine soundEngine = new SoundEngine(1);
-
-
-        CoreKernel kernel = new CoreKernel(physicEngine, graphicEngine, soundEngine);
-        try {
-            KeyboardController keyControl = new KeyboardController();
-            //MouseController mouseControl = new MouseController();
-
-            kernel.addInputsControl(keyControl.getEventType(), keyControl);
-            //kernel.addInputsControl(mouseControl.getEventType(), mouseControl);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        CoreKernel kernel = new CoreKernel(rules);
         kernel.startGame();
         /*------------------------------------------------------------*/
     }

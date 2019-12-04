@@ -1,95 +1,133 @@
 package fr.univ_amu;
 
-import fr.univ_amu.audio_engine.SoundEngine;
+import fr.univ_amu.behavior.Impassable;
+import fr.univ_amu.behavior.Interactable;
+import fr.univ_amu.behavior.Playable;
+import fr.univ_amu.element.DynamicElement;
+import fr.univ_amu.element.Element;
 import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.graphic_engine.Window;
 import fr.univ_amu.io_engine.InputsController;
 import fr.univ_amu.physic_engine.PhysicEngine;
-import fr.univ_amu.utils.Direction;
-import javafx.application.Application;
-import javafx.event.EventType;
+import fr.univ_amu.rule.GameRules;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CoreKernel {
-    private PhysicEngine physicEngine;
-    private GraphicEngine graphicEngine;
-    private SoundEngine soundEngine;
-    private Direction desiredDirection = null;
+    private boolean alreadyLaunch = false;
     private int fps;
 
-    private List<InputsController> inputsControls = new ArrayList<>();
+    private static GameLoop gameLoop = new GameLoop();
 
+    private GameRules gameRules;
 
-    public CoreKernel(PhysicEngine physicEngine, GraphicEngine graphicEngine, SoundEngine soundEngine) {
-        this.physicEngine = physicEngine;
-        this.graphicEngine = graphicEngine;
-        this.soundEngine = soundEngine;
+    private static GameState saveGameState;
+    private static GameState actualgameState;
+
+    public CoreKernel(GameRules gameRules){
+        this.gameRules = gameRules;
     }
 
-    public void startGame() throws IOException {
-        graphicEngine.loadStaticsElements();
-        graphicEngine.loadDynamicsElements();
-        GraphicEngine.displayElements(Window.root);
-        graphicEngine.updateInteractableElements(); //pour les replacer au premier plan
+    public static void startGame() throws IOException {
+        GraphicEngine.createStaticsElementsView();
+        GraphicEngine.createDynamicsElementsView();
+        GraphicEngine.refreshWindow();
+        GraphicEngine.updateInteractableElements(); //pour les replacer au premier plan
 
-        GameLoop gameLoop = new GameLoop(this);
-        gameLoop.start();
+        List<Element> elements = new ArrayList<>(GraphicEngine.elementViewMap.keySet());
+        //List<ImageView> views = new ArrayList<>(GraphicEngine.elementViewMap.values());
 
-        Application.launch(Window.class);
+        saveGameState = new GameState(elements);
+
+        for(Element e : GraphicEngine.getDynamicElements()){
+            if(e instanceof Playable && ((Playable) e).getInputControl() != null) addInputsControl(((Playable) e).getInputControl());
+        }
+
+        gameLoop = new GameLoop();
+        gameLoop.startLoop();
+
+        GraphicEngine.launchWindow();
     }
 
-    public void updateGame() {
+    public static void restartGame(){
+        //GraphicEngine.removeElements(saveGameState.getElementPositionMap());
+        GraphicEngine.addElements(saveGameState.getElementPositionMap(), true);
+        GraphicEngine.refreshWindow();
+
+        //gameLoop = new GameLoop();
+        //gameLoop.start();
+    }
+
+    public static void updateGame() throws IOException {
         if(Window.root.getChildren().size() < 1){
             System.err.println("Empty window. No elements. Exit.");
             System.exit(1);
         }
-        if(inputsControls.size() < 1){
-            System.err.println("No InputsController detected.");
-        }
 
         if(Window.getStage() != null) {
             Window.getStage().setTitle(
-                    "fps: " +
-                            "    Pacman" +
+                            "Pacman" +
+                            "    fps: " +
                             "    Score: " + GameBoard.getInstance().getPacman().getScore() +
                             "    Vie: " + GameBoard.getInstance().getPacman().getLifes()
             );
         }
 
-        Direction newDirection = inputsControls.get(0).getDirection();
-        Direction currentDirection = GameBoard.getInstance().getPacman().getCurrentDirection();
+        HashMap<DynamicElement, Set<Element>> collisions;
+        HashMap<DynamicElement, Set<Element>> collisionsAfterRules;
+        Set<Element> secondCollisions = new HashSet<>();
 
-        if(newDirection != null) {
-            desiredDirection = newDirection;
-            GameBoard.getInstance().getPacman().setCurrentDirection(newDirection);
-        } else if(desiredDirection != null){
-            GameBoard.getInstance().getPacman().setCurrentDirection(desiredDirection);
+        /* met a jout les direction de tout les éléments jouable a partir de l'input controller */
+        for(Element p : GraphicEngine.getPlaybleElements()){
+            ((Playable) p).updateDirectionFromInput();
         }
 
-        if(!physicEngine.updatePhysicElements()) {
-            graphicEngine.updateDynamicsElements();
-        } else {
-            GameBoard.getInstance().getPacman().setCurrentDirection(currentDirection);
-            if(!physicEngine.updatePhysicElements()) {
-                graphicEngine.updateDynamicsElements();
+
+
+        if((collisions = PhysicEngine.getNextCollisions()).keySet().size() > 0) { //si collisions
+            for(DynamicElement de : GraphicEngine.getDynamicElements()){
+                boolean canMove = true;
+                if(collisions.keySet().contains(de)) { //collisiosn contient tout élement impassable et/ou interactable
+                    for (Element e : collisions.get(de)) {
+                        if(e instanceof Impassable) canMove = false;
+                        if(de instanceof Playable && e instanceof Impassable) {
+                            ((Playable) de).undoUpdateDirection();
+                        }
+                        if (e instanceof Interactable) ((Interactable) e).interact(de);
+                    }
+
+                    if(!canMove){
+                        canMove = true;
+                        secondCollisions = PhysicEngine.getNextElementCollisions(de);
+                        for (Element e : secondCollisions) {
+                            if(e instanceof Impassable) canMove = false;
+                            if (e instanceof Interactable) ((Interactable) e).interact(de);
+                        }
+                        if(!canMove) de.setCurrentDirection(null);
+                        else de.move();
+                    }
+                } else {
+                    de.move();
+                }
             }
+            GraphicEngine.updateDynamicsElements();
+        } else {
+            for(DynamicElement de : GraphicEngine.getDynamicElements()){
+                de.move();
+                GraphicEngine.updateElement(de);
+            }
+            //GraphicEngine.updateDynamicsElements();
         }
-
-
-        //soundEngine.playSound();
     }
 
 
-    public void addInputsControl(EventType eventType, InputsController inputsControl){
-        inputsControls.add(inputsControl);
-        Window.theScene.addEventHandler(eventType, inputsControl);
+    public static void addInputsControl(InputsController inputsControl){
+        System.out.println(inputsControl);
+        Window.theScene.addEventHandler(inputsControl.getEventType(), inputsControl);
     }
 
-    public void removeInputsControl(EventType eventType, InputsController inputsControl){
-        this.inputsControls.remove(inputsControl);
-        Window.theScene.removeEventHandler(eventType, inputsControl);
+    public static void removeInputsControl(InputsController inputsControl){
+        Window.theScene.removeEventHandler(inputsControl.getEventType(), inputsControl);
     }
 }

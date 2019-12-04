@@ -1,13 +1,13 @@
 package fr.univ_amu.entity;
 
-import fr.univ_amu.behavior.Interactable;
 import fr.univ_amu.element.Element;
+import fr.univ_amu.io_engine.InputsController;
 import fr.univ_amu.utils.Direction;
 import fr.univ_amu.utils.Shape2D;
 import fr.univ_amu.behavior.Playable;
 import fr.univ_amu.element.DynamicElement;
 
-public class Ghost extends DynamicElement implements Playable, Interactable {
+public class Ghost extends DynamicElement implements Playable {
     private Shape2D graphicShape;
     private Shape2D physicShape;
     private String image;
@@ -16,6 +16,7 @@ public class Ghost extends DynamicElement implements Playable, Interactable {
 
     private double speed;
     private Direction currentDirection;
+    private InputsController inputsController;
 
 
 
@@ -37,6 +38,11 @@ public class Ghost extends DynamicElement implements Playable, Interactable {
     @Override
     public Direction getCurrentDirection() {
         return currentDirection;
+    }
+
+    @Override
+    public void setCurrentDirection(Direction newDirection) {
+        this.currentDirection = newDirection;
     }
 
     @Override
@@ -71,13 +77,41 @@ public class Ghost extends DynamicElement implements Playable, Interactable {
     }
 
     @Override
+    public InputsController getInputControl() {
+        return inputsController;
+    }
+
+    @Override
+    public void setInputControl(InputsController inputsController) {
+        this.inputsController = inputsController;
+    }
+
+    @Override
+    public void updateDirectionFromInput() {
+        if(inputsController == null) return;
+        this.currentDirection = inputsController.getDirection() == null ? this.currentDirection : inputsController.getDirection();
+    }
+
+    @Override
+    public void undoUpdateDirection() {
+
+    }
+
+    @Override
     public void setImage(String image) {
         this.image = image;
     }
 
     @Override
     public void interact(Element element) {
-        if(element instanceof Pacman) ((Pacman) element).retrievLife();
+        if(element instanceof Pacman) {
+            ((Pacman) element).retrievLife(1);
+            element.getGraphicShape().setxPosition(260d);
+            element.getGraphicShape().setyPosition(340d);
+            element.getPhysiqueShape().setxPosition(260d);
+            element.getPhysiqueShape().setyPosition(340d);
+            ((Pacman) element).setCurrentDirection(null);
+        }
     }
 
 
