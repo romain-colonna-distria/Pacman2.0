@@ -25,6 +25,11 @@ public class Door extends StaticElement {
     }
 
     @Override
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    @Override
     public Shape2D getPhysiqueShape() {
         return physicShape;
     }

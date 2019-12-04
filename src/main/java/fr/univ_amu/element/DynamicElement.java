@@ -69,8 +69,4 @@ public abstract class DynamicElement implements Element {
             }
         }
     }
-
-    public void moveTo(){
-
-    }
 }

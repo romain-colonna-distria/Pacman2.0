@@ -17,7 +17,7 @@ import java.util.HashMap;
 
 
 public class GraphicEngine {
-    private HashMap<Element, ImageView> elementImageViewHashMap = new HashMap<>();
+    public static HashMap<Element, ImageView> elementImageViewHashMap = new HashMap<>();
 
     public void loadStaticsElements() throws IOException {
         GameBoard board = GameBoard.getInstance();
@@ -46,7 +46,7 @@ public class GraphicEngine {
         }
     }
 
-    public void displayElements(Group root){
+    public static void displayElements(Group root){
         root.getChildren().clear();
         for(ImageView iv : elementImageViewHashMap.values()){
             root.getChildren().add(iv);
@@ -65,9 +65,29 @@ public class GraphicEngine {
         }
     }
 
+    public void updateInteractableElements(){
+        GameBoard board = GameBoard.getInstance();
+
+        for (Element e : board.getInteractableElements()) {
+            //supprime pour replacer les éléments dynamiques au premier plan
+            Window.root.getChildren().remove(elementImageViewHashMap.get(e));
+
+            setImageViewPositionFromElementPosition(elementImageViewHashMap.get(e), e);
+            Window.root.getChildren().add(elementImageViewHashMap.get(e));
+        }
+    }
+
+
     private void setImageViewPositionFromElementPosition(ImageView view, Element element){
         view.setX(element.getGraphicShape().getxPosition());
         view.setY(element.getGraphicShape().getyPosition());
+    }
+
+
+    public static void removeElement(Element element){
+        GameBoard.getInstance().retrieveElement(element, elementImageViewHashMap.get(element));
+        elementImageViewHashMap.remove(element);
+        //System.out.println("Suprimé");
     }
 
 

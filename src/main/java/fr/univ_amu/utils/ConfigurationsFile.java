@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.Key;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,7 +21,7 @@ public class ConfigurationsFile {
         while ((configLineTmp = fileReader.readLine()) != null){
             tokens = configLineTmp.split("=");
             verifyLineFormat(tokens);
-            configs.put(tokens[KEY].toLowerCase(), tokens[VALUE].toLowerCase());
+            configs.put(tokens[VALUE].toLowerCase(), tokens[KEY].toLowerCase());
         }
 
         fileReader.close();
@@ -47,5 +48,9 @@ public class ConfigurationsFile {
 
     public String getAssociatedKey(String action){
         return configs.get(action);
+    }
+
+    public Map getConfigMap(){
+        return configs;
     }
 }

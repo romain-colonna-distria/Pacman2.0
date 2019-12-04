@@ -1,5 +1,7 @@
 package fr.univ_amu;
 
+import fr.univ_amu.behavior.Eatable;
+import fr.univ_amu.behavior.Interactable;
 import fr.univ_amu.element.DynamicElement;
 import fr.univ_amu.element.Element;
 import fr.univ_amu.element.StaticElement;
@@ -7,6 +9,8 @@ import fr.univ_amu.entity.Pacman;
 import fr.univ_amu.entity.Ghost;
 import fr.univ_amu.entity.Trail;
 import fr.univ_amu.entity.Wall;
+import fr.univ_amu.graphic_engine.Window;
+import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,14 +72,22 @@ public class GameBoard {
         return tmp;
     }
 
+
     public List<Trail> getTrails() {
         List<Trail> tmp = new ArrayList<>();
         for(int i = 0; i < elements.size(); ++i) {
             if (elements.get(i) instanceof Trail) tmp.add((Trail) elements.get(i));
         }
-
+    }
+  
+    public List<Element> getEatables(){
+        List<Element> tmp = new ArrayList<>();
+        for(int i = 0; i < elements.size(); ++i) {
+            if (elements.get(i) instanceof Eatable) tmp.add(elements.get(i));
+        }
         return tmp;
     }
+
 
     public List<Trail> getNeighborTrails(Trail current_trail) {
         List<Trail> neighbors = new ArrayList<>();
@@ -99,6 +111,13 @@ public class GameBoard {
         }
         return neighbors;
     }
+    public List<Element> getInteractableElements(){
+        List<Element> tmp = new ArrayList<>();
+        for(int i = 0; i < elements.size(); ++i) {
+            if (elements.get(i) instanceof Interactable) tmp.add(elements.get(i));
+        }
+        return tmp;
+    }
 
     public List<Element> getElements(){
         return elements;
@@ -117,6 +136,11 @@ public class GameBoard {
     
     public void addElements(Collection<Element> newElements){
         elements.addAll(newElements);
+    }
+
+    public void retrieveElement(Element element, ImageView view){
+        elements.remove(element);
+        Window.root.getChildren().remove(view);
     }
 
 

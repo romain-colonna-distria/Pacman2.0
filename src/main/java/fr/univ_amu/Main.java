@@ -1,9 +1,9 @@
 package fr.univ_amu;
 
 import fr.univ_amu.audio_engine.SoundEngine;
+import fr.univ_amu.audio_engine.SoundLoader;
 import fr.univ_amu.element.Element;
-import fr.univ_amu.entity.Ghost;
-import fr.univ_amu.entity.Pacman;
+import fr.univ_amu.entity.*;
 import fr.univ_amu.graphic_engine.GraphicEngine;
 import fr.univ_amu.io_engine.KeyboardController;
 import fr.univ_amu.physic_engine.PhysicEngine;
@@ -13,7 +13,7 @@ import fr.univ_amu.utils.Utils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Random;
 
 
 @SuppressWarnings("Duplicates")
@@ -29,24 +29,25 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException, IOException {
         GameBoard board = GameBoard.getInstance();
-
         /*-------------------------- Pacman --------------------------*/
         String imagePacman = "src/main/resources/img_15_15_black_background/pacman/pacman_eat_1.png";
 
         Shape2D graphicShapePacman = new Shape2D();
         graphicShapePacman.setWidth(ELEMENT_WIDTH);
         graphicShapePacman.setHeigth(ELEMENT_HEIGTH);
-        graphicShapePacman.setxPosition(100d);
-        graphicShapePacman.setyPosition(100d);
+        graphicShapePacman.setxPosition(260d);
+        graphicShapePacman.setyPosition(340d);
 
         Shape2D physicShapePacman = new Shape2D();
         physicShapePacman.setWidth(ELEMENT_WIDTH);
         physicShapePacman.setHeigth(ELEMENT_HEIGTH);
-        physicShapePacman.setxPosition(100d);
-        physicShapePacman.setyPosition(100d);
+        physicShapePacman.setxPosition(260d);
+        physicShapePacman.setyPosition(340d);
 
         Pacman pacman = new Pacman.PacmanBuilder(graphicShapePacman, physicShapePacman, imagePacman)
                 .setSpeed(1)
+                .setScore(0)
+                .setLifes(3)
                 .build();
 
         board.addElement(pacman);
@@ -142,11 +143,38 @@ public class Main {
         /*------------------------------------------------------------*/
 
 
+        /*--------------------- init teleporters ---------------------*/
+        List<Trail> trails = new ArrayList<>();
+        for(Element e : elements){
+            if(!(e instanceof Trail)) continue;
+            trails.add((Trail) e);
+        }
+
+        Random random = new Random();
+        int randdomPos = random.nextInt(trails.size() - 1);
+
+
+        for(int i = 0; i < elements.size(); ++i){
+            if(!(elements.get(i) instanceof Teleporter)) continue;
+            ((Teleporter) elements.get(i)).bind(trails.get(randdomPos));
+        }
+        /*------------------------------------------------------------*/
+
+
+        /*------------------------ init candy ------------------------*/
+        List<Element> candies = new ArrayList<>();
+        String imageCandy = "src/main/resources/img_15_15_black_background/candy/Pacgomme.png";
+        for (Trail t : trails){
+            candies.add(new Candy(t.getGraphicShape(), t.getPhysiqueShape(), imageCandy));
+        }
+        board.addElements(candies);
+        /*------------------------------------------------------------*/
+
+
         /*----------------------- core kernel ------------------------*/
         PhysicEngine physicEngine = new PhysicEngine();
         GraphicEngine graphicEngine = new GraphicEngine();
-        SoundEngine soundEngine = new SoundEngine(1);
-
+        SoundEngine soundEngine = new SoundEngine(new SoundLoader("src/main/resources/sound_config.conf"));
 
         CoreKernel kernel = new CoreKernel(physicEngine, graphicEngine, soundEngine);
         try {
